@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Please Type in Your Username and Password</string>
+    <string name="app_name">RexLogin</string>
+    <string name="service_name">apps_background</string>
+
+</resources>
