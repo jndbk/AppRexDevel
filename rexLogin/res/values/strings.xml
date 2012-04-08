@@ -4,5 +4,7 @@
     <string name="hello">Please Type in Your Username and Password</string>
     <string name="app_name">RexLogin</string>
     <string name="service_name">apps_background</string>
+    <string name="Login">Login</string>
+    <string name="Logout">Logout</string>
 
 </resources>

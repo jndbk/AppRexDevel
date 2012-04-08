@@ -47,7 +47,11 @@
         android:layout_gravity="center_horizontal"
         android:padding="10dip"
         android:text=" Login " />
-"
 
+    <ListView android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content" 
+    	android:id="@+id/applist"
+    />
+    
     
 </LinearLayout>

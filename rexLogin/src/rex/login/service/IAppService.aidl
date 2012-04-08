@@ -4,4 +4,5 @@ import rex.login.AppInfo;
 interface IAppService{
 	List<AppInfo> getAppInfo();
 	void clearAppInfo();
+	void setUserName(String uname);
 }
