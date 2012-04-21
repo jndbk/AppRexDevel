@@ -133,13 +133,17 @@ public class MonitorService extends Service
                 currentApps.remove(k);
         }
 
-        PackageManager pm1 = this.getPackageManager();
-        List<ApplicationInfo> allApps1 = pm1.getInstalledApplications(0);
-
-        ActivityManager am = (ActivityManager) this
-                .getSystemService(ACTIVITY_SERVICE);
-        // get the info from the currently running task
-        List<RunningAppProcessInfo> taskInfo = am.getRunningAppProcesses();
+        List<RunningAppProcessInfo> taskInfo = null;
+        try
+        {
+            ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+            // get the info from the currently running task
+            taskInfo = am.getRunningAppProcesses();
+        }
+        catch(Exception e)
+        {
+            return Service.START_STICKY;           
+        }
         for (RunningAppProcessInfo info : taskInfo)
         {
             String aname = null;
@@ -238,7 +242,7 @@ public class MonitorService extends Service
         {
             public List<AppInfo> getAppInfo() throws RemoteException
             {
-                ArrayList<AppInfo> info = db.getAppInfo();
+                ArrayList<AppInfo> info = db.getAppInfo(null);
                 Log.d("Service",
                         "called getAppInfo " + Integer.toString(info.size()));
                 return info;

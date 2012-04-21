@@ -13,20 +13,15 @@ import android.os.Parcelable;
 public class AppInfo implements Parcelable
 {
     // user defined
-    private String appname;
     private String packageName;
     private Long startTime;
     private Long stopTime;
     
-    private String category;
-
     // constructors
-    public AppInfo(String appname, String pname, String category, Long start, Long stop)
+    public AppInfo(String pname, Long start, Long stop)
     {
-        this.appname = appname;
         this.startTime = start;
         this.stopTime = stop;
-        this.category = category;
         this.setPackageName(pname);
     }
 
@@ -36,25 +31,6 @@ public class AppInfo implements Parcelable
     }
 
     // getters and setters
-    public String getAppname()
-    {
-        return appname;
-    }
-
-    public void setAppname(String name)
-    {
-        this.appname = name;
-    }
-
-    public String getCategory()
-    {
-        return category;
-    }
-
-    public void setCategory(String name)
-    {
-        this.category = name;
-    }
 
     public final Long getStartTime()
     {
@@ -81,9 +57,9 @@ public class AppInfo implements Parcelable
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        if (this.appname != null)
+        if (this.packageName != null)
         {
-            sb.append(this.appname).append(' ');
+            sb.append(this.packageName).append(' ');
         }
         DateFormat df = DateFormat.getInstance();
         Calendar cal = Calendar.getInstance();
@@ -91,7 +67,7 @@ public class AppInfo implements Parcelable
         String startString = df.format(cal.getTime());
         cal.setTimeInMillis(stopTime);
         String stopString = df.format(cal.getTime());
-        sb.append(" [").append(this.category).append("]\n").append(startString).append(":").append(stopString);
+        sb.append(startString).append(":").append(stopString);
         return sb.toString();
     }
 
@@ -120,11 +96,9 @@ public class AppInfo implements Parcelable
 
     public void writeToParcel(Parcel parcel, int flags)
     {
-        parcel.writeString(this.appname);
         parcel.writeString(this.packageName);
         parcel.writeLong(this.startTime);
         parcel.writeLong(this.stopTime);
-        parcel.writeString(this.category);
     }
 
     /**
@@ -141,11 +115,9 @@ public class AppInfo implements Parcelable
      */
     public void readFromParcel(Parcel parcel)
     {
-        appname = parcel.readString();
         this.packageName = parcel.readString();
         startTime = parcel.readLong();
         stopTime = parcel.readLong();
-        category = parcel.readString();
     }
 
     public void setPackageName(String packageName)

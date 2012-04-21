@@ -61,6 +61,11 @@ public class RexLoginActivity extends Activity implements OnClickListener
         Log.d("RexLogin", "Started app");
         super.onStart();
         db = new AppsDb(this);
+        List<AppAttributes> attrs = db.getAttributes(null);
+        for(AppAttributes aa: attrs)
+        {
+            appAttributes.put(aa.getPackageName(), aa);
+        }
         // create initial list
         if (!bound)
         {
@@ -227,6 +232,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
                         attr.setCategory(cat);
                         attr.setIcon(icon);
                         appAttributes.put(pkgName, attr);
+                        db.setAttributes(pkgName, null, cat, icon);
                     }
                     Toast.makeText(getApplicationContext(), "Got category " + cat + " for " + pkgName,
                             1000).show();
@@ -257,37 +263,40 @@ public class RexLoginActivity extends Activity implements OnClickListener
         ArrayList<String> values = new ArrayList<String>();
         try
         {
-            List<AppInfo> appInfo = appService.getAppInfo();
+            // Get app info from the db
+            List<AppInfo> appInfo = db.getAppInfo(null);
             for(AppInfo app: appInfo)
             {
                 String pname = app.getPackageName();
                 Log.d("Parse", "Got " + app.getPackageName());
-                String aname = app.getAppname();
+                String aname = null;
+                String category = null;
                 AppAttributes attr = appAttributes.get(pname);
                 if(attr != null)
                 {
-                    app.setCategory(attr.getCategory());
+                    // If the app is already in the database, then use it
+                    aname = attr.getAppName();
                 }
                 else
                 {
+                    // Otherwise get the information from the cloud
                     // Put in as pending so we don't ask twice
-                    AppAttributes aa = new AppAttributes();
-                    aa.setPackageName(pname);
-                    aa.setAppName(aname);
-                    aa.setAppName(app.getAppname());
-                    aa.setCategory("pending");
-                    appAttributes.put(pname, aa);
-                    ParseQuery q = new ParseQuery(mAppAttributesName);
-                    q.whereEqualTo("pkgName", pname);
-                    q.findInBackground(new CategoryResult(pname, aname));
+                    List<AppAttributes> aas = db.getAttributes(pname);
+                    if(aas.size() != 0)
+                    {
+                        AppAttributes aa = aas.get(0);
+                        aa.setPackageName(pname);
+                        aa.setAppName(aname);
+                        aa.setCategory("pending");
+                        appAttributes.put(pname, aa);
+                        ParseQuery q = new ParseQuery(mAppAttributesName);
+                        q.whereEqualTo("pkgName", pname);
+                        q.findInBackground(new CategoryResult(pname, aname));
+                    }
                 }
                 values.add(app.toString());
             }
-        } catch (RemoteException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        } 
         catch (Exception e)
         {
             Toast.makeText(getApplicationContext(), e.toString(),
@@ -415,7 +424,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
         Log.d(LOGGING_TAG, "Refreshing UI with new data");
         try
         {
-            appInfo = db.getAppInfo();
+            appInfo = db.getAppInfo(null);
             if (appInfo == null)
             {
                 appInfo = new ArrayList<AppInfo>(0);

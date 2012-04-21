@@ -2,6 +2,8 @@ package rex.login;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.TimeZone;
 
 import android.content.Context;
@@ -21,7 +23,7 @@ public class AppsDb
 {
     // database metadata
     private static final String DB_NAME = "apps.db";
-    private static final int DB_VERSION = 8;
+    private static final int DB_VERSION = 12;
 
     private static final String PTABLE_NAME = "processes";
     private static final String CTABLE_NAME = "categories";
@@ -29,16 +31,17 @@ public class AppsDb
     // processes column names
     private static final String APPNAME = "appname";
     private static final String CATEGORY = "category";
+    private static final String ICON = "icon";
     private static final String START_TIME = "start_time";
     private static final String STOP_TIME = "stop_time";
     private static final String PACKAGENAME = "package";
 
     // SQL statements
     private static final String CREATE_PTABLE = "CREATE TABLE " + PTABLE_NAME
-            + " (ID INTEGER PRIMARY KEY, " + APPNAME + " TEXT, " + PACKAGENAME + " TEXT, " + START_TIME 
+            + " (ID INTEGER PRIMARY KEY, " + PACKAGENAME + " TEXT, " + START_TIME 
             + " INTEGER, " + STOP_TIME + " INTEGER)";
     private static final String CREATE_CTABLE = "CREATE TABLE " + CTABLE_NAME
-            + " (" + APPNAME + " TEXT PRIMARY KEY, " + CATEGORY + " TEXT)";
+            + " (" + PACKAGENAME + " TEXT PRIMARY KEY, " + APPNAME + " TEXT, " + CATEGORY + " TEXT, " + ICON + " TEXT)";
     private static final String CREATE_ID_TABLE = "create table currentid(id integer primary key)";
 
     // The Context object that created this AppsDb
@@ -82,11 +85,13 @@ public class AppsDb
             public void onUpgrade(SQLiteDatabase db, int oldVersion,
                     int newVersion)
             {
-                if(oldVersion < 20)
+                if(oldVersion < 15)
                 {
                     db.execSQL("drop table if exists " +  PTABLE_NAME);
+                    db.execSQL("drop table if exists " +  CTABLE_NAME);
                     db.execSQL("drop table if exists currentid");
                     db.execSQL(CREATE_PTABLE);
+                    db.execSQL(CREATE_CTABLE);
                     db.execSQL(CREATE_ID_TABLE);
                     db.execSQL("insert into currentid values('1')");
                 }
@@ -105,9 +110,15 @@ public class AppsDb
         db.execSQL(CREATE_PTABLE);        
     }
 
-    public ArrayList<AppInfo> getAppInfo()
+    public ArrayList<AppInfo> getAppInfo(String pkg)
     {
-        Cursor results = db.rawQuery("SELECT * from processes order by start_time desc", null);
+        String queryStr;
+        if(pkg == null)
+            queryStr = "SELECT * from processes order by start_time desc";
+        else
+            queryStr = "SELECT * from processes where " + PACKAGENAME + " = '" + pkg + "' order by start_time desc";
+       
+        Cursor results = db.rawQuery(queryStr, null);
         int num = results.getCount();
         ArrayList<AppInfo> allApps = new ArrayList<AppInfo>();
         if (num != 0)
@@ -116,15 +127,11 @@ public class AppsDb
             {
                 do
                 {
-                    int appnameCol = results.getColumnIndex(APPNAME);
-                    String appName = results.getString(appnameCol);
-                    if(appName == null)
-                        continue;
                     int startCol = results.getColumnIndex(START_TIME);
                     int stopCol = results.getColumnIndex(STOP_TIME);
                     int packageCol = results.getColumnIndex(PACKAGENAME);
-                    AppInfo thisApp = new AppInfo(appName, results.getString(packageCol), 
-                            "Uncategorized", results.getLong(startCol), results.getLong(stopCol));
+                    AppInfo thisApp = new AppInfo(results.getString(packageCol), 
+                            results.getLong(startCol), results.getLong(stopCol));
                             allApps.add(thisApp);
                 } while (results.moveToNext());
             }
@@ -135,19 +142,34 @@ public class AppsDb
         }
         return allApps;
     }
-
-    public String getCategory(String app)
+    public List<AppAttributes> getAttributes(String pkg)
     {
-        String ret = null;
+        List<AppAttributes> ret = new LinkedList<AppAttributes>();
         try
         {
-            Cursor results = db.rawQuery(
-                    "SELECT category FROM categories WHERE appname = '" + app
-                            + "'", null);
+            Cursor results = null;
+            if(pkg == null)
+                results = db.rawQuery("SELECT * FROM categories", null);
+            else
+                results = db.rawQuery("SELECT * FROM categories WHERE " + PACKAGENAME + " = '" + pkg + "'", null);
             if (results.getCount() != 0)
             {
-                results.moveToFirst();
-                ret = results.getString(1);
+                if (results.moveToFirst())
+                {
+                    do
+                    {
+                        int catCol = results.getColumnIndex(CATEGORY);
+                        int iconCol = results.getColumnIndex(ICON);
+                        int pkgCol = results.getColumnIndex(PACKAGENAME);
+                        int appCol = results.getColumnIndex(APPNAME);
+                        AppAttributes aa = new AppAttributes();
+                        aa.setCategory(results.getString(catCol));
+                        aa.setIcon(results.getString(iconCol));
+                        aa.setPackageName(results.getString(pkgCol));
+                        aa.setAppName(results.getString(appCol));
+                        ret.add(aa);
+                    } while (results.moveToNext());
+                }
                 if (!results.isClosed())
                     results.close();
             }
@@ -159,12 +181,31 @@ public class AppsDb
         return ret;
     }
 
-    public void setCategory(String app, String cat)
+    public void setAttributes(String pkg, String appName, String cat, String icon)
     {
         try
         {
-            db.execSQL("INSERT INTO categories ('" + APPNAME + "', '" + CATEGORY
-                    + "') VALUES('" + app + "','" + cat + "')");
+            Cursor results = db.rawQuery("get * from categories where " + PACKAGENAME + " = '" + pkg + "'", null);
+            if(results.getCount() != 0)
+            {
+                if(appName != null)
+                    db.execSQL("update categories set " + APPNAME + " = '" + appName + "'");
+                if(cat != null)
+                    db.execSQL("update categories set " + CATEGORY + " = '" + cat + "'");
+                if(icon != null)
+                    db.execSQL("update categories set " + ICON + " = '" + icon + "'");
+            }
+            else
+            {
+                if(appName == null)
+                    appName = "";
+                if(cat == null)
+                    cat = "";
+                if(icon == null)
+                    icon = "";
+                db.execSQL("INSERT INTO categories ('" + PACKAGENAME + "', '" + APPNAME + "', '" + CATEGORY + "', '" + ICON + "')" + 
+                        " VALUES('" + pkg + "','" + appName + "','" + cat + "','" + icon + "')");
+            }
         } catch (Exception e)
         {
             Log.e("Exception 1", e.toString());
@@ -183,12 +224,13 @@ public class AppsDb
                 ++id;
                 String curTime = Long.toString(Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTimeInMillis());
                 String q = "insert into processes values('" + Integer.toString(id) + "','" + 
-                            app + "','" + packageName + "','" + curTime + "','" + curTime + "')";
+                            packageName + "','" + curTime + "','" + curTime + "')";
                 Log.d("AppsDb", q);
                 db.execSQL(q);
                 q = "update currentid set id = '" + Integer.toString(id) + "'";
                 Log.d("AppsDb", q);
                 db.execSQL(q);
+                this.setAttributes(packageName, app, null, null);
             }
         } catch (Exception e)
         {
