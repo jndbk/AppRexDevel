@@ -120,6 +120,8 @@ public class MonitorService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
+        try
+        {
         if (currentUser == null)
         {
             Log.d("AppsDb", "No user id");
@@ -192,6 +194,11 @@ public class MonitorService extends Service
                     // Name Not FOund Exception
                 }
             }
+        }
+        }
+        catch (Exception e)
+        {
+            Log.d("MainException", e.toString());
         }
         return Service.START_STICKY;
     }
