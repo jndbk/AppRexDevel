@@ -61,6 +61,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
         Log.d("RexLogin", "Started app");
         super.onStart();
         db = new AppsDb(this);
+        AppInfoHelper.create(db);
         List<AppAttributes> attrs = db.getAttributes(null);
         for(AppAttributes aa: attrs)
         {
@@ -294,7 +295,18 @@ public class RexLoginActivity extends Activity implements OnClickListener
                         q.findInBackground(new CategoryResult(pname, aname));
                     }
                 }
-                values.add(app.toString());
+                List<String> cats = AppInfoHelper.instance().getCategories();
+                for(String cat: cats)
+                {
+                    values.add("Category: " + cat);
+                    List<AppInfoHelper.AppSummary>appsByUsage = AppInfoHelper.instance().getAppsSortedByUsage(cat);
+                    for(AppInfoHelper.AppSummary sum: appsByUsage)
+                    {
+                        values.add(sum.appName);
+                        
+                    }
+                }
+                //values.add(app.toString());
             }
         } 
         catch (Exception e)
