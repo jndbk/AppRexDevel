@@ -28,13 +28,11 @@ public class AppInstance implements Parcelable
     {
         return stopTime;
     }
-    @Override
     public int describeContents()
     {
         // TODO Auto-generated method stub
         return 0;
     }
-    @Override
     public void writeToParcel(Parcel parcel, int flags)
     {
         parcel.writeLong(this.startTime);

@@ -41,6 +41,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import rex.login.service.IAppService;
+//import stock.ticker.MyApps;
+//import stock.ticker.R;
 
 public class RexLoginActivity extends Activity implements OnClickListener
 {
@@ -89,7 +91,6 @@ public class RexLoginActivity extends Activity implements OnClickListener
     private ServiceConnection connection = new ServiceConnection()
     {
 
-        @Override
         public void onServiceConnected(ComponentName className, IBinder service)
         {
             appService = IAppService.Stub.asInterface(service);
@@ -124,7 +125,6 @@ public class RexLoginActivity extends Activity implements OnClickListener
                 processUserInfo();
         }
 
-        @Override
         public void onServiceDisconnected(ComponentName className)
         {
             appService = null;
@@ -157,6 +157,15 @@ public class RexLoginActivity extends Activity implements OnClickListener
 //        }
         
         setContentView(R.layout.main);
+
+        Button button2 = (Button) findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener(){
+        	public void onClick(View view){
+        		Intent myIntent = new Intent(view.getContext(), MyApps.class);
+        		startActivityForResult(myIntent, 0);
+        	}
+        });
+        
         Button createAccount = (Button) findViewById(R.id.createAccount);
         login = (Button) findViewById(R.id.login);
         createAccount.setOnClickListener(this);
@@ -180,7 +189,6 @@ public class RexLoginActivity extends Activity implements OnClickListener
         
     }
 
-    @Override
     public void onClick(View login)
     {
         

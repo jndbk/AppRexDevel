@@ -71,7 +71,6 @@ public class AppInfoHelper
     }
     
     public class AppSummaryComparator implements Comparator<AppSummary> {
-        @Override
         public int compare(AppSummary o1, AppSummary o2) 
         {
             if(o1.totalTime > o2.totalTime)
