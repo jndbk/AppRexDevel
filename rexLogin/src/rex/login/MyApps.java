@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 public class MyApps extends Activity {
@@ -25,11 +26,9 @@ public class MyApps extends Activity {
                 List<AppInfoHelper.AppSummary>appsByUsage = AppInfoHelper.instance().getAppsSortedByUsage(cat);
                 for(AppInfoHelper.AppSummary sum: appsByUsage)
                 {
-                	String appName;
-					String icon;
-					long timeLastPlayed;
-					new MyAppList(sum.appName, sum.timeLastPlayed, sum.icon, this);
-                    
+					MyAppList myapplist = new MyAppList(sum.appName, sum.timeLastPlayed, sum.icon, this);
+                    ViewGroup myapps = (ViewGroup) findViewById(R.layout.myapps);
+                    myapps.addView(myapplist.getMyappslist());
                 }
             }
 	        

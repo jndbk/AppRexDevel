@@ -9,6 +9,15 @@ public class MyAppList {
 	private View myappslist;
 	
 		public MyAppList(String appName, long timeLastPlayed, String icon, Activity act) {
-			myappslist = (View) act.findViewById(R.id.myappslist);
+			setMyappslist((View) act.findViewById(R.id.myappslist));
+			
 	}
+
+		public View getMyappslist() {
+			return myappslist;
+		}
+
+		public void setMyappslist(View myappslist) {
+			this.myappslist = myappslist;
+		}
 }
