@@ -37,7 +37,16 @@ public class AppInfoHelper
             return null;
         for(AppAttributes a: attr)
         {
-            cats.add(a.getCategory());
+            boolean found = false;
+            for(String ss: cats)
+            {
+                if(ss.equals(a.getCategory()))
+                   found = true;
+            }
+            if(!found)
+            {
+                cats.add(a.getCategory());
+            }
         }
         return cats; 
     }
