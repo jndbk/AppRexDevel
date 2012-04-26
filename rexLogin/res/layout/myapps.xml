@@ -11,8 +11,8 @@
     	android:id="@+id/myappslist" >
     	
         <ImageView
-            android:layout_width="wrap_content"
-    		android:layout_height="wrap_content" 
+            android:layout_width="55dip"
+    		android:layout_height="55dip" 
     		android:id="@+id/icon1"
     		android:src="@drawable/ic_launcher"
     		android:padding="5dip" 
@@ -21,25 +21,29 @@
         
         <TextView 
             android:layout_width="wrap_content"
-    		android:layout_height="wrap_content" 
+    		android:layout_height="wrap_content"
+    		android:text="App Name"
     		android:id="@+id/appName"
-    		android:padding="5dip"
+    		android:padding="10dip"
     		android:textSize="20dip"
-    		android:layout_alignRight="@id/icon1" />
+    		android:layout_toRightOf="@id/icon1"
+    		android:layout_marginLeft="20dip" />
         
         <TextView 
             android:layout_width="wrap_content"
     		android:layout_height="wrap_content" 
+    		android:text="00:00"
     		android:id="@+id/atpd"
-    		android:padding="5dip"
+    		android:padding="10dip"
     		android:textSize="20dip"
-    		android:layout_alignRight="@id/appName" />
+    		android:layout_toRightOf="@id/appName"
+    		android:layout_marginLeft="20dip" />
         
-		<LinearLayout
+		<RelativeLayout
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
-			android:layout_below="@id/myappslist"
+			android:layout_below="@id/atpd"
 			android:id="@+id/panellayout" >
 			<rex.login.Panel
 				android:layout_width="fill_parent"
@@ -49,12 +53,13 @@
 				panel:position="top"
 				panel:animationDuration="1000"
 				panel:linearFlying="true"
-				panel:openedHandle="@drawable/ic_launcher"
-				panel:closedHandle="@drawable/ic_launcher">
+				panel:openedHandle="@drawable/top_switcher_expanded"
+				panel:closedHandle="@drawable/top_switcher_collapsed">
 				<Button
 					android:id="@+id/panelHandle"
-					android:layout_width="fill_parent"
-					android:layout_height="33dip" />
+					android:layout_width="100dip"
+					android:layout_height="22dip" 
+					android:layout_marginLeft="150dip" />
 				<LinearLayout
 					android:id="@+id/panelContent"
 					android:orientation="vertical"
@@ -77,7 +82,7 @@
 				</LinearLayout>
 			</rex.login.Panel>
 
-		</LinearLayout>
+		</RelativeLayout>
     </RelativeLayout>
     
         <Button 
