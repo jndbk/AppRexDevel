@@ -217,6 +217,13 @@ public class RexLoginActivity extends Activity implements OnClickListener
         @Override
         public void done(List<ParseObject> apps, ParseException e)
         {
+            if(apps == null)
+            {
+                if(e != null)
+                    Toast.makeText(getApplicationContext(), e.toString(),
+                            2000).show();
+                return;
+            }
             if(apps.size() != 0)
             {
                 for(ParseObject app: apps)
@@ -273,7 +280,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
                 String aname = null;
                 String category = null;
                 AppAttributes attr = appAttributes.get(pname);
-                if(attr != null)
+                if(attr != null && attr.getCategory().length() != 0)
                 {
                     // If the app is already in the database, then use it
                     aname = attr.getAppName();
@@ -295,18 +302,6 @@ public class RexLoginActivity extends Activity implements OnClickListener
                         q.findInBackground(new CategoryResult(pname, aname));
                     }
                 }
-                List<String> cats = AppInfoHelper.instance().getCategories();
-                for(String cat: cats)
-                {
-                    values.add("Category: " + cat);
-                    List<AppInfoHelper.AppSummary>appsByUsage = AppInfoHelper.instance().getAppsSortedByUsage(cat);
-                    for(AppInfoHelper.AppSummary sum: appsByUsage)
-                    {
-                        values.add(sum.appName);
-                        
-                    }
-                }
-                //values.add(app.toString());
             }
         } 
         catch (Exception e)
@@ -315,7 +310,19 @@ public class RexLoginActivity extends Activity implements OnClickListener
                     2000).show();
             
         }
+        //values.add(app.toString());
         
+        List<String> cats = AppInfoHelper.instance().getCategories();
+        for(String cat: cats)
+        {
+            values.add("Category: " + cat);
+            List<AppInfoHelper.AppSummary>appsByUsage = AppInfoHelper.instance().getAppsSortedByUsage(cat);
+            for(AppInfoHelper.AppSummary sum: appsByUsage)
+            {
+                values.add(sum.appName);
+                
+            }
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
         v.setAdapter(adapter);

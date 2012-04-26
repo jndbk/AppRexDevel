@@ -23,7 +23,7 @@ public class AppsDb
 {
     // database metadata
     private static final String DB_NAME = "apps.db";
-    private static final int DB_VERSION = 12;
+    private static final int DB_VERSION = 13;
 
     private static final String PTABLE_NAME = "processes";
     private static final String CTABLE_NAME = "categories";
@@ -185,7 +185,7 @@ public class AppsDb
     {
         try
         {
-            Cursor results = db.rawQuery("get * from categories where " + PACKAGENAME + " = '" + pkg + "'", null);
+            Cursor results = db.rawQuery("select * from categories where " + PACKAGENAME + " = '" + pkg + "'", null);
             if(results.getCount() != 0)
             {
                 if(appName != null)
