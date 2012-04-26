@@ -259,7 +259,11 @@ public class RexLoginActivity extends Activity implements OnClickListener
                 ParseObject catInfo = new ParseObject(mAppAttributesName);
                 Log.d("Parse", "New Object");
                 catInfo.put("pkgName", pkgName);
-                catInfo.put("appName", appName);
+                if(appName != null)
+                    catInfo.put("appName", appName);
+                else
+                    Toast.makeText(getApplicationContext(), "No appname for " + pkgName,
+                            2000).show();
                 catInfo.put("category", "na");
                 catInfo.put("icon", "na");
                 catInfo.saveInBackground();

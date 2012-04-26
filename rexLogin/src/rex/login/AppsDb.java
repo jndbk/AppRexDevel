@@ -23,7 +23,7 @@ public class AppsDb
 {
     // database metadata
     private static final String DB_NAME = "apps.db";
-    private static final int DB_VERSION = 13;
+    private static final int DB_VERSION = 14;
 
     private static final String PTABLE_NAME = "processes";
     private static final String CTABLE_NAME = "categories";
@@ -189,11 +189,11 @@ public class AppsDb
             if(results.getCount() != 0)
             {
                 if(appName != null)
-                    db.execSQL("update categories set " + APPNAME + " = '" + appName + "'");
+                    db.execSQL("update categories set " + APPNAME + " = '" + appName + "' where " + PACKAGENAME + " = '" + pkg + "'");
                 if(cat != null)
-                    db.execSQL("update categories set " + CATEGORY + " = '" + cat + "'");
+                    db.execSQL("update categories set " + CATEGORY + " = '" + cat + "' where " + PACKAGENAME + " = '" + pkg + "'");
                 if(icon != null)
-                    db.execSQL("update categories set " + ICON + " = '" + icon + "'");
+                    db.execSQL("update categories set " + ICON + " = '" + icon + "' where " + PACKAGENAME + " = '" + pkg + "'");
             }
             else
             {
