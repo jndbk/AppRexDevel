@@ -100,7 +100,7 @@ public class AppInfoHelper
             if(asum == null)
             {
                 asum = this.getAppSummary(info.getPackageName());
-                if((asum.category == null) || (asum.category.equals(category) != true))
+                if((asum == null) || (asum.category == null) || (asum.category.equals(category) != true))
                     continue;
                 appMap.put(asum.packageName, asum);
             }
