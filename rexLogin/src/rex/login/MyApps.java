@@ -28,8 +28,18 @@ public class MyApps extends Activity {
                 List<AppInfoHelper.AppSummary>appsByUsage = AppInfoHelper.instance().getAppsSortedByUsage(cat);
                 for(AppInfoHelper.AppSummary sum: appsByUsage)
                 {
-					MyAppList myapplist = new MyAppList(v, sum.appName, sum.timeLastPlayed, sum.icon, this);
-					v.addView(myapplist.getMyappslist());
+                    try
+                    {
+                        ViewGroup vg = (ViewGroup) v.findViewById(R.id.putappshere);
+                        MyAppList myapplist = new MyAppList(sum.appName, sum.timeLastPlayed, sum.icon, this);
+                        vg.addView(myapplist.getMyappslist());
+                    }
+                    catch(Exception e)
+                    {
+                        Toast.makeText(getApplicationContext(), e.toString(),
+                                2000).show();
+                        
+                    }
                 }
             }
             Toast.makeText(getApplicationContext(), Integer.toString(v.getChildCount()),
