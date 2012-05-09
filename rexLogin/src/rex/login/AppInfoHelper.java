@@ -132,6 +132,7 @@ public class AppInfoHelper
         // Returns appname, icon, List of start time, stop time
         AppDetails ret = new AppDetails();
         ret.appInfo = this.getAppSummary(packageName);
+        ret.times = new LinkedList<AppDetails.Times>();
         List<AppInfo> ainfo = mDb.getAppInfo(packageName);
         for(AppInfo info: ainfo)
         {

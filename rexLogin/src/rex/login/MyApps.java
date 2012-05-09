@@ -1,7 +1,11 @@
 package rex.login;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import rex.login.AppInfoHelper.AppDetails;
+import rex.login.AppInfoHelper.AppDetails.Times;
 
 import android.R.drawable;
 import android.R.string;
@@ -33,6 +37,18 @@ public class MyApps extends Activity {
                         ViewGroup vg = (ViewGroup) v.findViewById(R.id.putappshere);
                         MyAppList myapplist = new MyAppList(sum.appName, sum.timeLastPlayed, sum.icon, this);
                         vg.addView(myapplist.getMyappslist());
+                        
+                        
+//                        AppDetails details = AppInfoHelper.instance().getDetails(sum.packageName);
+//                        for(Times times: details.times)
+//                        {
+//                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+//                            String startTime = formatter.format(times.start);
+//                            String stopTime = formatter.format(times.start);
+//
+//                            myapplist = new MyAppList(startTime + " to " + stopTime, sum.timeLastPlayed, sum.icon, this);
+//                            vg.addView(myapplist.getMyappslist());
+//                        }
                     }
                     catch(Exception e)
                     {

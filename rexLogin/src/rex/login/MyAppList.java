@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 public class MyAppList {
 	private View myappslist;
-	private Button myButton;
 		public MyAppList(String appName, long timeLastPlayed, String icon, Activity act) {
 			setMyappslist(act.getLayoutInflater().inflate(R.layout.myapps1, null));
 			TextView tv = (TextView) myappslist.findViewById(R.id.appName);
@@ -31,13 +30,4 @@ public class MyAppList {
 			this.myappslist = myappslist;
 		}
 
-        public void setMyButton(Button myButton)
-        {
-            this.myButton = myButton;
-        }
-
-        public Button getMyButton()
-        {
-            return myButton;
-        }
 }
