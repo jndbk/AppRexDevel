@@ -16,8 +16,12 @@ public class MyAppList {
 			setMyappslist(act.getLayoutInflater().inflate(R.layout.myapps1, null));
 			TextView tv = (TextView) myappslist.findViewById(R.id.appName);
 			tv.setText(appName);
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
-			String asString = formatter.format(timeLastPlayed);
+			String asString = "";
+			if(timeLastPlayed != 0)
+			{
+			    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+			    asString = formatter.format(timeLastPlayed);
+			}
 			tv = (TextView) myappslist.findViewById(R.id.atpd);
 			tv.setText(asString);
 	}

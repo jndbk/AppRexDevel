@@ -39,16 +39,16 @@ public class MyApps extends Activity {
                         vg.addView(myapplist.getMyappslist());
                         
                         
-//                        AppDetails details = AppInfoHelper.instance().getDetails(sum.packageName);
-//                        for(Times times: details.times)
-//                        {
-//                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
-//                            String startTime = formatter.format(times.start);
-//                            String stopTime = formatter.format(times.start);
-//
-//                            myapplist = new MyAppList(startTime + " to " + stopTime, sum.timeLastPlayed, sum.icon, this);
-//                            vg.addView(myapplist.getMyappslist());
-//                        }
+                        AppDetails details = AppInfoHelper.instance().getDetails(sum.packageName);
+                        for(Times times: details.times)
+                        {
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+                            String startTime = formatter.format(times.start);
+                            String stopTime = formatter.format(times.stop);
+
+                            myapplist = new MyAppList(startTime + " to " + stopTime, 0, sum.icon, this);
+                            vg.addView(myapplist.getMyappslist());
+                        }
                     }
                     catch(Exception e)
                     {
