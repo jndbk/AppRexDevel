@@ -132,7 +132,7 @@ public class AppsDb
                     int packageCol = results.getColumnIndex(PACKAGENAME);
                     AppInfo thisApp = new AppInfo(results.getString(packageCol), 
                             results.getLong(startCol), results.getLong(stopCol));
-                            allApps.add(thisApp);
+                    allApps.add(thisApp);
                 } while (results.moveToNext());
             }
         }

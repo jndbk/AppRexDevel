@@ -89,8 +89,8 @@ public class MonitorService extends Service
         now.add(Calendar.SECOND, 2);
         mgr.setRepeating(AlarmManager.RTC, now.getTimeInMillis(), 10 * 1000,
                 sender);
-        // mgr.setRepeating(AlarmManager.RTC, now.getTimeInMillis(), 120 * 1000,
-        // sender);
+        //mgr.setRepeating(AlarmManager.RTC, now.getTimeInMillis(), 120 * 1000,
+        //sender);
         Log.d("APPREX", "End start up");
     }
 
