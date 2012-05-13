@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MyAppList {
@@ -16,6 +17,12 @@ public class MyAppList {
 			setMyappslist(act.getLayoutInflater().inflate(R.layout.myapps1, null));
 			TextView tv = (TextView) myappslist.findViewById(R.id.appName);
 			tv.setText(appName);
+			if(!icon.contentEquals("na"))
+			{
+			    ImageView iv = (ImageView) myappslist.findViewById(R.id.icon1);
+			    Drawable d = Drawable.createFromPath(icon);
+			    iv.setImageDrawable(d);
+			}
 			String asString = "";
 			if(timeLastPlayed != 0)
 			{

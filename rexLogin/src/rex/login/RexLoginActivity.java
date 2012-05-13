@@ -1,5 +1,6 @@
 package rex.login;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -217,8 +218,10 @@ public class RexLoginActivity extends Activity implements OnClickListener
     {
         String pkgName;
         String appName;
-        CategoryResult(String pname, String aname)
+        Context ctxt;
+        CategoryResult(String pname, String aname, Context context)
         {
+            ctxt = context;
             pkgName = pname;
             appName = aname;
         }
@@ -248,9 +251,22 @@ public class RexLoginActivity extends Activity implements OnClickListener
                         attr.setCategory(cat);
                         attr.setIcon(icon);
                         appAttributes.put(pkgName, attr);
-                        db.setAttributes(pkgName, null, cat, icon);
+                        if(!icon.contentEquals("na"))
+                        {
+                            String extension = "";
+                            int extensionIndex = icon.lastIndexOf(".");
+                            if(extensionIndex >= 0)
+                                extension = icon.substring(extensionIndex);
+                            File dirName = ctxt.getFilesDir();
+                            File fname = new File(dirName, pkgName + extension);
+                            ImageDownloader.DownloadFromUrl(icon, fname.toString());
+                            db.setAttributes(pkgName, null, cat, fname.toString());
+                        }
+                        else
+                            db.setAttributes(pkgName, null, cat, "na");
+
                     }
-                    Toast.makeText(getApplicationContext(), "Got category " + cat + " for " + pkgName,
+                    Toast.makeText(getApplicationContext(), "Got category " + cat + " icon " + icon + " for " + pkgName,
                             1000).show();
                 }
             }
@@ -311,7 +327,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
                         appAttributes.put(pname, aa);
                         ParseQuery q = new ParseQuery(mAppAttributesName);
                         q.whereEqualTo("pkgName", pname);
-                        q.findInBackground(new CategoryResult(pname, aname));
+                        q.findInBackground(new CategoryResult(pname, aname, this));
                     }
                 }
             }
