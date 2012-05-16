@@ -5,9 +5,7 @@
 			android:shape="rectangle"
 			android:id="@+id/rectangle" >
 			<stroke android:width="1dip" android:color="#FF000000" />
-			<solid android:color="#FFFFFFFF" />
-			<corners
-				android:radius="30dip" />
+			<solid android:color="#FFFFFF77" />
 		</shape>
 	</item>
 </layer-list>

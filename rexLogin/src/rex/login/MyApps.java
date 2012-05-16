@@ -36,6 +36,7 @@ public class MyApps extends Activity {
                     {
                         ViewGroup vg = (ViewGroup) v.findViewById(R.id.putappshere);
                         MyAppList myapplist = new MyAppList(sum.appName, sum.timeLastPlayed, sum.icon, this);
+                        vg.setBackgroundResource(R.drawable.border);
                         vg.addView(myapplist.getMyappslist());
                         
                         
