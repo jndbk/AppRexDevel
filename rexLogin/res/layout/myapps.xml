@@ -1,94 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout 
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:panel="http://schemas.android.com/apk/res/rex.login"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-
-    <RelativeLayout
-        android:layout_width="fill_parent" 
-    	android:layout_height="wrap_content" 
-    	android:id="@+id/myappslist" >
-    	
-        <ImageView
-            android:layout_width="55dip"
-    		android:layout_height="55dip" 
-    		android:id="@+id/icon1"
-    		android:src="@drawable/ic_launcher"
-    		android:padding="5dip" 
-    		android:layout_alignParentLeft="true" >
-        </ImageView>
-        
-        <TextView 
-            android:layout_width="wrap_content"
-    		android:layout_height="wrap_content"
-    		android:text="App Name"
-    		android:id="@+id/appName"
-    		android:padding="10dip"
-    		android:textSize="20dip"
-    		android:layout_toRightOf="@id/icon1"
-    		android:layout_marginLeft="20dip" />
-        
-        <TextView 
-            android:layout_width="wrap_content"
-    		android:layout_height="wrap_content" 
-    		android:text="00:00"
-    		android:id="@+id/atpd"
-    		android:padding="10dip"
-    		android:textSize="20dip"
-    		android:layout_toRightOf="@id/appName"
-    		android:layout_marginLeft="20dip" />
-        
-		<RelativeLayout
+  	android:layout_height="wrap_content" 
+  	android:background="@drawable/border" 
+  	android:id="@+id/myappslist" >
+  	
+      <ImageView
+        android:layout_width="55dip"
+  		android:layout_height="55dip" 
+  		android:id="@+id/icon1"
+  		android:src="@drawable/ic_launcher"
+  		android:padding="5dip" 
+  		android:layout_alignParentLeft="true" >
+      </ImageView>
+      
+      <TextView 
+        android:layout_width="wrap_content"
+  		android:layout_height="wrap_content"
+  		android:text="App Name"
+  		android:id="@+id/appName"
+  		android:padding="10dip"
+  		android:textSize="20dip"
+  		android:textColor="#000000"
+  		android:layout_toRightOf="@id/icon1"
+  		android:layout_marginLeft="20dip" />
+      
+      <TextView 
+        android:layout_width="wrap_content"
+  		android:layout_height="wrap_content" 
+  		android:text="00:00"
+  		android:id="@+id/atpd"
+  		android:padding="10dip"
+  		android:textColor="#000000"
+  		android:textSize="20dip"
+  		android:layout_toRightOf="@id/appName"
+  		android:layout_marginLeft="20dip" />
+      
+<RelativeLayout
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:layout_below="@id/atpd"
+	android:id="@+id/panellayout" >
+	<rex.login.Panel
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/topPanel"
+		android:paddingBottom="20dip"
+		panel:position="top"
+		panel:animationDuration="1000"
+		panel:linearFlying="true"
+		panel:openedHandle="@drawable/top_switcher_expanded"
+		panel:closedHandle="@drawable/top_switcher_collapsed">
+		<Button
+			android:id="@+id/panelHandle"
+			android:layout_width="100dip"
+			android:layout_height="22dip" 
+			android:layout_gravity="center" />
+		<LinearLayout
+			android:id="@+id/panelContent"
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:layout_below="@id/atpd"
-			android:id="@+id/panellayout" >
-			<rex.login.Panel
+			android:layout_height="wrap_content">
+			<TextView
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:id="@+id/topPanel"
-				android:paddingBottom="20dip"
-				panel:position="top"
-				panel:animationDuration="1000"
-				panel:linearFlying="true"
-				panel:openedHandle="@drawable/top_switcher_expanded"
-				panel:closedHandle="@drawable/top_switcher_collapsed">
-				<Button
-					android:id="@+id/panelHandle"
-					android:layout_width="100dip"
-					android:layout_height="22dip" 
-					android:layout_marginLeft="150dip" />
-				<LinearLayout
-					android:id="@+id/panelContent"
-					android:orientation="vertical"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content">
-					<TextView
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:gravity="center"
-						android:text="From the Top -> Down"
-						android:textSize="16dip"
-						android:padding="4dip"
-						android:textStyle="bold" />
-					<ImageView
-						android:src="@drawable/ic_launcher"
-						android:layout_gravity="center"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content" />
+				android:gravity="center"
+				android:text="From the Top -> Down"
+				android:textSize="16dip"
+				android:padding="4dip"
+				android:textStyle="bold" />
+			<ImageView
+				android:src="@drawable/ic_launcher"
+				android:layout_gravity="center"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
 
-				</LinearLayout>
-			</rex.login.Panel>
+		</LinearLayout>
+	</rex.login.Panel>
 
-		</RelativeLayout>
-    </RelativeLayout>
-    
-        <Button 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
-            android:id="@+id/button3" 
-            android:text="Back to main"
-            android:layout_alignParentBottom="true" />
+</RelativeLayout>
+
 </RelativeLayout>

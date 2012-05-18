@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class MyAppList {
 	private View myappslist;
 		public MyAppList(String appName, long timeLastPlayed, String icon, Activity act) {
-			setMyappslist(act.getLayoutInflater().inflate(R.layout.myapps1, null));
+			setMyappslist(act.getLayoutInflater().inflate(R.layout.myapps, null));
 			TextView tv = (TextView) myappslist.findViewById(R.id.appName);
 			tv.setText(appName);
 			if(!icon.contentEquals("na"))

@@ -4,7 +4,8 @@
     xmlns:panel="http://schemas.android.com/apk/res/rex.login"
     android:layout_width="fill_parent"
   	android:layout_height="wrap_content" 
-  	android:id="@+id/myappslist" >
+  	android:background="@drawable/border1" 
+  	android:id="@+id/myappslist1" >
   	
       <ImageView
         android:layout_width="55dip"
