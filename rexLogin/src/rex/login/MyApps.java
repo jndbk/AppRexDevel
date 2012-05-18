@@ -86,7 +86,7 @@ public class MyApps extends Activity {
 	        	finish();
 	        }
 	        });
-	        TabHost mTabHost = (TabHost) findViewById(R.id.tabhost);
+	        	mTabHost = (TabHost) findViewById(R.id.tabhost);
 	        	setupTab(new TextView(this), "Tab 1");
 	        	setupTab(new TextView(this), "Tab 2");
 	        	setupTab(new TextView(this), "Tab 3");
