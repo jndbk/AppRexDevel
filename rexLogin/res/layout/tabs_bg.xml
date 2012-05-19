@@ -4,13 +4,13 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 	
-    <TextSwitcher 
+    <TextView 
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:text="Hi" 
     	android:id="@+id/tabsText" >
         
-    </TextSwitcher>
+    </TextView>
     
 
 </LinearLayout>
