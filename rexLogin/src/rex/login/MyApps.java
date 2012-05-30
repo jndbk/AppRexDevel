@@ -33,11 +33,14 @@ public class MyApps extends Activity {
 		super.onCreate(savedInstanceState);
 		ViewGroup v = (ViewGroup) getLayoutInflater().inflate(R.layout.myappscontainer, null);
 		setContentView(v);
-
-
+		
+		ViewGroup banner = (ViewGroup) getLayoutInflater().inflate(R.layout.banner,null);
+		ViewGroup putbannerhere = (ViewGroup) findViewById(R.id.putbannerhere);
+		putbannerhere.addView(banner);
+		
 		ArrayList<String> values = new ArrayList<String>();
 		List<String> cats = AppInfoHelper.instance().getCategories();
-		for(String cat: cats)
+		for(String cat:  cats)
 		{
 			values.add("Category: " + cat);
 			List<AppInfoHelper.AppSummary>appsByUsage = AppInfoHelper.instance().getAppsSortedByUsage(cat);
@@ -51,6 +54,15 @@ public class MyApps extends Activity {
 					{
 						MyAppList1 myapplist1 = new MyAppList1(sum.appName, sum.timeLastPlayed, sum.icon, this);
 						vg.addView(myapplist1.getMyappslist1());
+						Button panelHandle = (Button) myapplist1.getMyappslist1().findViewById(R.id.panelHandle);
+						panelHandle.setOnClickListener(new View.OnClickListener() {
+							
+							@Override
+							public void onClick(View v) {
+								//Toast.makeText(getApplicationContext(), "Chart goes here", 2000).show();
+								
+							}
+						});
 					}
 					else
 					{	
@@ -58,8 +70,10 @@ public class MyApps extends Activity {
 						vg.addView(myapplist.getMyappslist());
 
 					}
-					i++;
-					/* AppDetails details = AppInfoHelper.instance().getDetails(sum.packageName);
+					i++;/*
+					AppDetails details = AppInfoHelper.instance().getDetails(sum.packageName);
+					Times firstTime = details.times.getFirst();
+					long st = firstTime.start;
                         for(Times times: details.times)
                         {
                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
@@ -93,9 +107,9 @@ public class MyApps extends Activity {
         setupTabHost();
         //mTabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
 
-        setupTab(new TextView(this), "Tab 1");
-        setupTab(new TextView(this), "Tab 2");
-        setupTab(new TextView(this), "Tab 3");
+        setupTab(new TextView(this), "Games");
+        setupTab(new TextView(this), "Social");
+        setupTab(new TextView(this), "Media");
 	}
     private void setupTabHost() {
         mTabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -115,6 +129,7 @@ public class MyApps extends Activity {
         View view = LayoutInflater.from(context).inflate(R.layout.tabs_bg, null);
         TextView tv = (TextView) view.findViewById(R.id.tabsText);
         tv.setText(text);
+        tv.setLinkTextColor(0x000000);
         return view;
     }
 }

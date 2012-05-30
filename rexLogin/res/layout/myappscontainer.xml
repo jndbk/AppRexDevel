@@ -5,19 +5,25 @@
     android:background="#FFFFFF"
     android:orientation="vertical" >
     
-	<LinearLayout 
-        android:layout_height="75dip"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:id="@+id/putbannerhere" >"
+    </LinearLayout>
+    
+    <Button 
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content" 
+   		android:id="@+id/button3" 
+   		android:text="Back to main" />
+    
+    <LinearLayout
+        android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:id="@+id/banner"  
+        android:id="@+id/tablayout"  
         android:orientation="vertical" >
-	    		<Button 
-    		android:layout_width="wrap_content"
-    		android:layout_height="wrap_content" 
-    		android:id="@+id/button3" 
-    		android:gravity="center"
-    		android:text="Back to main"
-			android:layout_alignParentBottom="true" />
- 
+
 		<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     		android:id="@android:id/tabhost" android:layout_width="fill_parent"
     		android:layout_height="fill_parent">
@@ -27,8 +33,9 @@
     		    android:layout_height="fill_parent" >
     		    
     		    <TabWidget android:id="@android:id/tabs"
-    		        android:layout_width="fill_parent" 
-    		        android:layout_height="wrap_content" />
+    		        android:layout_width="wrap_content" 
+    		        android:layout_height="wrap_content"
+    		        android:layout_gravity="center_horizontal" />
     		    
     		    <FrameLayout android:id="@android:id/tabcontent"
         		    android:layout_width="fill_parent" 
@@ -36,7 +43,7 @@
         		</FrameLayout>
 			</LinearLayout>
 		</TabHost>
-	</LinearLayout>
+	</LinearLayout>  
 	<ScrollView
     	android:id="@+id/widget54"
     	android:layout_width="fill_parent"

@@ -3,9 +3,11 @@
 	<item>
 		<shape
 			android:shape="rectangle"
-			android:id="@+id/rectangle" >
+			android:id="@+id/rectangle2" >
 			<stroke android:width="1dip" android:color="#FF000000" />
-			<solid android:color="#A0C9D4" />
+			<solid android:color="#BEDBE2" />
+			<corners android:topLeftRadius="5dip"
+			    	 android:topRightRadius="5dip" />
 		</shape>
-	</item><!--  F4F4F4-->
+	</item>
 </layer-list>
