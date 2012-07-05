@@ -258,7 +258,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
                             if(extensionIndex >= 0)
                                 extension = icon.substring(extensionIndex);
                             File dirName = ctxt.getFilesDir();
-                            File fname = new File(dirName, pkgName + extension);
+                            File fname = new File(dirName, pkgName + ".png");
                             ImageDownloader.DownloadFromUrl(icon, fname.toString());
                             db.setAttributes(pkgName, null, cat, fname.toString());
                         }
