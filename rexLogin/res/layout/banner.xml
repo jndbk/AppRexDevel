@@ -11,11 +11,11 @@
         android:layout_margin="5dip"
         android:src="@drawable/t_rex" >
 	</ImageView>
-	<TextView 
-	    android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:text="something"
-    	android:layout_toLeftOf="@id/imageView1"
-    	android:layout_marginLeft="10dip"
-    	android:background="@drawable/bannerborder" />"
+	<Button 
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content" 
+   		android:id="@+id/button3" 
+   		android:layout_toRightOf="@id/imageView1"
+   		android:text="Back to main" >
+	</Button>
 </RelativeLayout>

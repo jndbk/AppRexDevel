@@ -12,14 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MyAppList {
-	private View myappslist;
+	private View myapps;
 		public MyAppList(String appName, long timeLastPlayed, String icon, Activity act) {
 			setMyappslist(act.getLayoutInflater().inflate(R.layout.myapps, null));
-			TextView tv = (TextView) myappslist.findViewById(R.id.appName);
+			TextView tv = (TextView) myapps.findViewById(R.id.appName);
 			tv.setText(appName);
 			if(!icon.contentEquals("na"))
 			{
-			    ImageView iv = (ImageView) myappslist.findViewById(R.id.icon1);
+			    ImageView iv = (ImageView) myapps.findViewById(R.id.icon1);
 			    Drawable d = Drawable.createFromPath(icon);
 			    iv.setImageDrawable(d);
 			}
@@ -29,16 +29,16 @@ public class MyAppList {
 			    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
 			    asString = formatter.format(timeLastPlayed);
 			}
-			tv = (TextView) myappslist.findViewById(R.id.atpd);
+			tv = (TextView) myapps.findViewById(R.id.atpd);
 			tv.setText(asString);
 	}
 
 		public View getMyappslist() {
-			return myappslist;
+			return myapps;
 		}
 
 		public void setMyappslist(View myappslist) {
-			this.myappslist = myappslist;
+			this.myapps = myappslist;
 		}
 
 }

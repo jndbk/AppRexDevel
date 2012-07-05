@@ -12,12 +12,6 @@
         android:id="@+id/putbannerhere" >"
     </LinearLayout>
     
-    <Button 
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content" 
-   		android:id="@+id/button3" 
-   		android:text="Back to main" />
-    
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
@@ -43,21 +37,33 @@
         		</FrameLayout>
 			</LinearLayout>
 		</TabHost>
-	</LinearLayout>  
+	</LinearLayout>
+	<LinearLayout
+	     android:layout_width="fill_parent" 
+         android:layout_height="20dip" 
+         android:orientation="vertical"
+         android:background="#234543" >
+    </LinearLayout>"
 	<ScrollView
     	android:id="@+id/widget54"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent"
     	android:background="#FFFFFF"
     	xmlns:android="http://schemas.android.com/apk/res/android">
-
+	    
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     	android:orientation="vertical"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:background="#00000000"
+    	android:background="#FFFFFF" 
+    	android:layout_marginTop="20dip"
     	android:id="@+id/putappshere" >
     	
 	</LinearLayout>
 	</ScrollView>
+	<LinearLayout
+	     android:layout_width="fill_parent" 
+         android:layout_height="100dip" 
+         android:orientation="vertical" >
+    </LinearLayout>"
 </LinearLayout>

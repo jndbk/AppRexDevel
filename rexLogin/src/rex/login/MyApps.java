@@ -4,9 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.achartengine.ChartFactory;
+import org.achartengine.chart.BarChart.Type;
+import org.achartengine.renderer.SimpleSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
+
 
 import rex.login.AppInfoHelper.AppDetails;
 import rex.login.AppInfoHelper.AppDetails.Times;
+import rex.login.SalesBarChart;
+import rex.login.IDemoChart;
+import rex.login.AbstractDemoChart;
 
 import android.R.drawable;
 import android.R.string;
@@ -15,11 +24,13 @@ import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TabHost.TabSpec;
@@ -27,50 +38,52 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyApps extends Activity {
+public class MyApps extends Activity  {
 	private TabHost mTabHost;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ViewGroup v = (ViewGroup) getLayoutInflater().inflate(R.layout.myappscontainer, null);
 		setContentView(v);
 		
+		ImageView rex = (ImageView) findViewById(R.drawable.t_rex);
+		ViewGroup myapps = (ViewGroup) getLayoutInflater().inflate(R.layout.myapps, null);
 		ViewGroup banner = (ViewGroup) getLayoutInflater().inflate(R.layout.banner,null);
 		ViewGroup putbannerhere = (ViewGroup) findViewById(R.id.putbannerhere);
 		putbannerhere.addView(banner);
+		
 		
 		ArrayList<String> values = new ArrayList<String>();
 		List<String> cats = AppInfoHelper.instance().getCategories();
 		for(String cat:  cats)
 		{
 			values.add("Category: " + cat);
+			ViewGroup category = (ViewGroup) getLayoutInflater().inflate(R.layout.category,null);
+			TextView cathere = (TextView) category.findViewById(R.id.cathere);
+			ViewGroup vg = (ViewGroup) v.findViewById(R.id.putappshere);
+			vg.addView(category);
+			cathere.setText(cat);
+			
 			List<AppInfoHelper.AppSummary>appsByUsage = AppInfoHelper.instance().getAppsSortedByUsage(cat);
-			int i = 0;
 			for(AppInfoHelper.AppSummary sum: appsByUsage)
 			{
 				try
 				{
-					ViewGroup vg = (ViewGroup) v.findViewById(R.id.putappshere);
-					if((i&1) == 0)
-					{
-						MyAppList1 myapplist1 = new MyAppList1(sum.appName, sum.timeLastPlayed, sum.icon, this);
-						vg.addView(myapplist1.getMyappslist1());
-						Button panelHandle = (Button) myapplist1.getMyappslist1().findViewById(R.id.panelHandle);
-						panelHandle.setOnClickListener(new View.OnClickListener() {
+					MyAppList myapplist = new MyAppList(sum.appName, sum.timeLastPlayed, sum.icon, this);
+					ViewGroup displayapps = (ViewGroup) category.findViewById(R.id.displayapps);
+					displayapps.addView(myapplist.getMyappslist());
+					//Button panelHandle = (Button) myapplist.getMyappslist().findViewById(R.id.panelHandle);
+					ViewGroup panelContent = (ViewGroup) myapplist.getMyappslist().findViewById(R.id.panelContent);
+					panelContent.addView(rex);
+					//panelHandle.setOnClickListener(new View.OnClickListener() {
 							
-							@Override
-							public void onClick(View v) {
-								//Toast.makeText(getApplicationContext(), "Chart goes here", 2000).show();
+						//@Override
+						//public void onClick(View v) {
+							//Toast.makeText(getApplicationContext(), "Chart goes here", 2000).show();
+							//ViewGroup panelContent = (ViewGroup) findViewById(R.id.panelContent);
 								
-							}
-						});
-					}
-					else
-					{	
-						MyAppList myapplist = new MyAppList(sum.appName, sum.timeLastPlayed, sum.icon, this);
-						vg.addView(myapplist.getMyappslist());
-
-					}
-					i++;/*
+						//}
+					//});
+					/*
 					AppDetails details = AppInfoHelper.instance().getDetails(sum.packageName);
 					Times firstTime = details.times.getFirst();
 					long st = firstTime.start;
@@ -90,7 +103,7 @@ public class MyApps extends Activity {
 							2000).show();
 
 				}
-			}
+			} 
 		}
 		Toast.makeText(getApplicationContext(), Integer.toString(v.getChildCount()),
 				2000).show();

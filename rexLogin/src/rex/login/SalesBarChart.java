@@ -61,9 +61,9 @@ public class SalesBarChart extends AbstractDemoChart{
 	 *            the context
 	 * @return the built intent
 	 */
-	public Intent execute(Context context) {
+	public Intent execute(Context context){
 		String[] titles = new String[] { "2007", "2008" };
-		List<double[]> values = new ArrayList<double[]>();
+		List<double[]> values = new ArrayList<double[]>(); 
 		values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030,
 				11200, 9500, 10500, 11600, 13500 });
 		values.add(new double[] { 14230, 12300, 14240, 15244, 15900, 19200,
