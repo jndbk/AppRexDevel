@@ -70,9 +70,14 @@ public class MyApps extends Activity  {
 				{
 					MyAppList myapplist = new MyAppList(sum.appName, sum.timeLastPlayed, sum.icon, this);
 					ViewGroup displayapps = (ViewGroup) category.findViewById(R.id.displayapps);
+					if(displayapps == null)
+					    continue;
+					
 					displayapps.addView(myapplist.getMyappslist());
 					//Button panelHandle = (Button) myapplist.getMyappslist().findViewById(R.id.panelHandle);
 					ViewGroup panelContent = (ViewGroup) myapplist.getMyappslist().findViewById(R.id.panelContent);
+					if(panelContent == null || rex == null)
+					    continue;
 					panelContent.addView(rex);
 					//panelHandle.setOnClickListener(new View.OnClickListener() {
 							
@@ -99,7 +104,7 @@ public class MyApps extends Activity  {
 				}
 				catch(Exception e)
 				{
-					Toast.makeText(getApplicationContext(), e.toString(),
+					Toast.makeText(getApplicationContext(), "4:" + e.toString(),
 							2000).show();
 
 				}

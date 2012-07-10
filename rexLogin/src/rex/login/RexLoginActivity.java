@@ -162,6 +162,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
         Button button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener(){
         	public void onClick(View view){
+        	    getInfo();
         		Intent myIntent = new Intent(view.getContext(), MyApps.class);
         		startActivityForResult(myIntent, 0);
         	}
@@ -187,7 +188,6 @@ public class RexLoginActivity extends Activity implements OnClickListener
             login.setText(R.string.Login);
         else
             login.setText(R.string.Logout);
-        
     }
 
     public void onClick(View login)
@@ -209,6 +209,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
                 logout();
             break;
         case R.id.createAccount:
+            getInfo();
             createUser(uName, pWord);
             break;
         }
@@ -231,7 +232,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
             if(apps == null)
             {
                 if(e != null)
-                    Toast.makeText(getApplicationContext(), e.toString(),
+                    Toast.makeText(getApplicationContext(), "1:" + e.toString(),
                             2000).show();
                 return;
             }
@@ -293,10 +294,8 @@ public class RexLoginActivity extends Activity implements OnClickListener
     {
         
     }
-    public void createUser(String uname, String pword)
+    public void getInfo()
     {
-        ListView v = (ListView) findViewById(R.id.applist);
-        ArrayList<String> values = new ArrayList<String>();
         try
         {
             // Get app info from the db
@@ -308,8 +307,9 @@ public class RexLoginActivity extends Activity implements OnClickListener
                 String aname = null;
                 String category = null;
                 AppAttributes attr = appAttributes.get(pname);
-                if(attr != null && attr.getCategory().length() != 0)
+                if(attr != null && attr.getCategory().length() != 0 && attr.getCategory().contentEquals("na") == false)
                 {
+                    Log.d("Parse", "Found category " + attr.getCategory() + " for " + attr.getPackageName());
                     // If the app is already in the database, then use it
                     aname = attr.getAppName();
                 }
@@ -320,6 +320,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
                     List<AppAttributes> aas = db.getAttributes(pname);
                     if(aas.size() != 0)
                     {
+                        Log.d("Parse", "Retrieving info for " + app.getPackageName());
                         AppAttributes aa = aas.get(0);
                         aa.setPackageName(pname);
                         aa.setAppName(aname);
@@ -334,10 +335,14 @@ public class RexLoginActivity extends Activity implements OnClickListener
         } 
         catch (Exception e)
         {
-            Toast.makeText(getApplicationContext(), e.toString(),
+            Toast.makeText(getApplicationContext(), "2:" + e.toString(),
                     2000).show();
-            
-        }
+        }        
+    }
+    public void createUser(String uname, String pword)
+    {
+        ListView v = (ListView) findViewById(R.id.applist);
+        ArrayList<String> values = new ArrayList<String>();
         //values.add(app.toString());
         
         List<String> cats = AppInfoHelper.instance().getCategories();
@@ -354,10 +359,6 @@ public class RexLoginActivity extends Activity implements OnClickListener
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
         v.setAdapter(adapter);
-
-        
-        Toast.makeText(getApplicationContext(), "Users created from Facebook",
-                2000).show();
     }
 
     public void logout()
@@ -395,7 +396,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
             }
             catch (Exception e)
             {
-                Toast.makeText(getApplicationContext(), e.toString(),
+                Toast.makeText(getApplicationContext(), "3:" + e.toString(),
                         2000).show();
             }
             Log.d("Parse", "Name: " + myName + " Id: " + myId);
