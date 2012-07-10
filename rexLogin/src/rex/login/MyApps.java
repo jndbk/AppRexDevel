@@ -74,21 +74,6 @@ public class MyApps extends Activity  {
 					    continue;
 					
 					displayapps.addView(myapplist.getMyappslist());
-					//Button panelHandle = (Button) myapplist.getMyappslist().findViewById(R.id.panelHandle);
-					ViewGroup panelContent = (ViewGroup) myapplist.getMyappslist().findViewById(R.id.panelContent);
-					if(panelContent == null || rex == null)
-					    continue;
-					panelContent.addView(rex);
-					//panelHandle.setOnClickListener(new View.OnClickListener() {
-							
-						//@Override
-						//public void onClick(View v) {
-							//Toast.makeText(getApplicationContext(), "Chart goes here", 2000).show();
-							//ViewGroup panelContent = (ViewGroup) findViewById(R.id.panelContent);
-								
-						//}
-					//});
-					/*
 					AppDetails details = AppInfoHelper.instance().getDetails(sum.packageName);
 					Times firstTime = details.times.getFirst();
 					long st = firstTime.start;

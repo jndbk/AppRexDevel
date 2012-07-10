@@ -1,32 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<declare-styleable name="Panel">
-        <!-- Defines panel animation duration in ms. -->
-        <attr name="animationDuration" format="integer" />
-        <!-- Defines panel position on the screen. -->
-        <attr name="position">
-        	<!-- Panel placed at top of the screen. -->
-            <enum name="top" value="0" />
-            <!-- Panel placed at bottom of the screen. -->
-            <enum name="bottom" value="1" />
-            <!-- Panel placed at left of the screen. -->
-            <enum name="left" value="2" />
-            <!-- Panel placed at right of the screen. -->
-            <enum name="right" value="3" />
-        </attr>
-        <!-- Defines if flying gesture forces linear interpolator in animation. -->
-        <attr name="linearFlying" format="boolean" />
-        <!-- Defines opened handle (drawable/color). -->
-        <attr name="openedHandle" format="reference|color" />
-        <!-- Defines closed handle (drawable/color). -->
-        <attr name="closedHandle" format="reference|color" />
-    </declare-styleable>
-
-    <declare-styleable name="SmoothButton">
-        <attr name="transitionDrawable" format="reference" />
-        <attr name="transitionDrawableLength" format="integer" />
-        <attr name="transitionTextColorUp" format="color" />
-        <attr name="transitionTextColorDown" format="color" />
-    </declare-styleable>
+    <attr name="direction">
+        <enum name="rightToLeft" value="0" />
+        <enum name="bottomToTop" value="1" />
+        <enum name="leftToRight" value="2" />
+        <enum name="topToBottom" value="3" />
+    </attr>
     
+    <declare-styleable name="MultiDirectionSlidingDrawer">
+        <attr name="handle" format="reference" />
+        <attr name="content" format="reference" />
+        <attr name="direction" />
+        <attr name="bottomOffset" format="dimension"  />
+        <attr name="topOffset" format="dimension"  />
+        <attr name="allowSingleTap" format="boolean" />
+        <attr name="animateOnClick" format="boolean" />
+    </declare-styleable>
 </resources>

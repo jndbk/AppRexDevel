@@ -38,49 +38,4 @@
   		android:layout_toRightOf="@id/appName"
   		android:layout_marginLeft="20dip" />
       
-<RelativeLayout
-	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:layout_below="@id/atpd"
-	android:id="@+id/panellayout" >
-	<rex.login.Panel
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/topPanel"
-		android:paddingBottom="20dip"
-		panel:position="top"
-		panel:animationDuration="1000"
-		panel:linearFlying="true"
-		panel:openedHandle="@drawable/top_switcher_expanded"
-		panel:closedHandle="@drawable/top_switcher_collapsed">
-		<Button
-			android:id="@+id/panelHandle"
-			android:layout_width="100dip"
-			android:layout_height="22dip" 
-			android:layout_gravity="center" />
-		<LinearLayout
-			android:id="@+id/panelContent"
-			android:orientation="vertical"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-			<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:gravity="center"
-				android:text="From the Top -> Down"
-				android:textSize="16dip"
-				android:padding="4dip"
-				android:textStyle="bold" />
-			<ImageView
-				android:src="@drawable/ic_launcher"
-				android:layout_gravity="center"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" />
-
-		</LinearLayout>
-	</rex.login.Panel>
-
-</RelativeLayout>
-
 </RelativeLayout>
