@@ -77,6 +77,7 @@ public class MyApps extends Activity  {
 					AppDetails details = AppInfoHelper.instance().getDetails(sum.packageName);
 					Times firstTime = details.times.getFirst();
 					long st = firstTime.start;
+					/*
                         for(Times times: details.times)
                         {
                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
