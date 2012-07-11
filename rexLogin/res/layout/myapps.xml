@@ -51,8 +51,7 @@
   			android:textSize="20dip"
   			android:layout_toRightOf="@id/appName"
   			android:layout_marginLeft="5dip" />
-  	    
-   	    
+  	      
 	<it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer
 		xmlns:my="http://schemas.android.com/apk/res/rex.login"
 		android:id="@+id/drawer"
@@ -60,10 +59,12 @@
 		android:layout_width="200dip"
 		android:layout_height="200dip"
 		my:handle="@+id/handle"
-		my:content="@+id/content">
+		my:content="@+id/content"
+		android:layout_below="@id/atpd"
+		android:layout_centerHorizontal="true">"
 		<include
 			android:id="@id/content"
-			layout="@layout/main" />
+			layout="@layout/drawer" />
 		<ImageView
 			android:id="@id/handle"
 			android:layout_width="wrap_content"

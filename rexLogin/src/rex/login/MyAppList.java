@@ -1,5 +1,8 @@
 package rex.login;
 
+import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer;
+import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer.OnDrawerOpenListener;
+
 import java.text.SimpleDateFormat;
 
 import android.app.Activity;
@@ -12,10 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyAppList {
+public class MyAppList implements OnDrawerOpenListener {
 	private View myapps;
+	private Activity mact = null;
 		public MyAppList(String appName, long timeLastPlayed, String icon, Activity act) {
-		    try
+		    mact = act;
+			try
 		    {
     		    setMyappslist(act.getLayoutInflater().inflate(R.layout.myapps, null));
     			TextView tv = (TextView) myapps.findViewById(R.id.appName);
@@ -34,6 +39,9 @@ public class MyAppList {
     			}
     			tv = (TextView) myapps.findViewById(R.id.atpd);
     			tv.setText(asString);
+    			
+    			MultiDirectionSlidingDrawer slide = (MultiDirectionSlidingDrawer) myapps.findViewById(R.id.drawer);
+    			slide.setOnDrawerOpenListener(this);
 		    }
             catch(Exception e)
             {
@@ -49,6 +57,12 @@ public class MyAppList {
 
 		public void setMyappslist(View myappslist) {
 			this.myapps = myappslist;
+		}
+
+		@Override
+		public void onDrawerOpened() {
+			Toast.makeText(mact, "Bar Chart Goes Here",2000).show();
+			
 		}
 
 }

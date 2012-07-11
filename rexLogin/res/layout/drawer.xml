@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:id="@+id/drawer"
+    android:background="#FFFFFF" >
+    <LinearLayout 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical" >
+        
+		<TextView 
+        	android:textSize="20dip" 
+            android:text="Cat By Usage 1"
+            android:padding="2dip"
+            android:layout_marginLeft="40dip"
+            android:background="#FFFFFF" 
+            android:id="@+id/tvcat" />
+        	
+		<RelativeLayout 
+        	android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:orientation="vertical"
+    		android:background="@drawable/borderforbottom">
+    			
+			<LinearLayout
+        	    android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:orientation="vertical"
+    			android:id="@+id/one"
+    			android:layout_alignParentLeft="true"
+    			android:padding="2dip"
+    			android:layout_marginLeft="5dip"
+    			android:background="#FFFFFF">
+    				
+				<ImageView 
+					android:layout_width="30dip"
+				    android:layout_height="30dip"
+				    android:id="@+id/schandle1"
+				    android:src="@drawable/t_rex" />
+				    
+				<TextView
+				    android:textSize="10dip" 
+        	    	android:text="SubCatGame" 
+        	    	android:id="@+id/sc1"/>
+    				
+    		</LinearLayout>
+    			
+			<LinearLayout
+           		android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+   				android:orientation="vertical"
+    			android:id="@+id/two"
+   				android:layout_toLeftOf="@id/one"
+   				android:padding="2dip"
+   				android:layout_marginLeft="5dip"
+    			android:background="#FFFFFF">
+    				
+			   	<ImageView 
+				    android:layout_width="30dip"
+				   	android:layout_height="30dip"
+			       	android:id="@+id/schandle2"
+			       	android:src="@drawable/t_rex" />
+				    
+		    	<TextView
+		    	    android:textSize="10dip" 
+    	    		android:text="SubCatGame"
+    	    		android:id="@+id/sc2"/>
+			</LinearLayout>
+				    
+			<LinearLayout
+       	   		android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+   				android:orientation="vertical"
+	    		android:id="@+id/three"
+	    		android:layout_toLeftOf="@id/two"
+				android:padding="2dip"
+    			android:layout_marginLeft="5dip"
+    			android:background="#FFFFFF">
+	    				
+			   	<ImageView 
+			       	android:layout_width="30dip"
+			        android:layout_height="30dip"
+				    android:id="@+id/schandle3"
+			    	android:src="@drawable/t_rex" />
+					    
+				<TextView
+			   	    android:textSize="10dip" 
+    	    		android:text="SubCatGame"
+    	    		android:id="@+id/sc3" />
+			</LinearLayout>
+			
+			<LinearLayout
+       	   		android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+   				android:orientation="vertical"
+	    		android:id="@+id/four"
+	    		android:layout_toLeftOf="@id/three"
+				android:padding="2dip"
+    			android:layout_marginLeft="5dip"
+    			android:background="#FFFFFF">
+	    				
+			   	<ImageView 
+			       	android:layout_width="30dip"
+			        android:layout_height="30dip"
+				    android:id="@+id/schandle4"
+			    	android:src="@drawable/t_rex" />
+					    
+				<TextView
+			   	    android:textSize="10dip" 
+    	    		android:text="SubCatGame"
+    	    		android:id="@+id/sc4"/>
+			</LinearLayout>
+		</RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
