@@ -70,11 +70,14 @@ public class MyApps extends Activity  {
 				{
 					MyAppList myapplist = new MyAppList(sum.appName, sum.timeLastPlayed, sum.icon, this);
 					ViewGroup displayapps = (ViewGroup) category.findViewById(R.id.displayapps);
+					if(displayapps == null)
+					    continue;
+					
 					displayapps.addView(myapplist.getMyappslist());
-					/*
 					AppDetails details = AppInfoHelper.instance().getDetails(sum.packageName);
 					Times firstTime = details.times.getFirst();
 					long st = firstTime.start;
+					/*
                         for(Times times: details.times)
                         {
                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
@@ -87,7 +90,7 @@ public class MyApps extends Activity  {
 				}
 				catch(Exception e)
 				{
-					Toast.makeText(getApplicationContext(), e.toString(),
+					Toast.makeText(getApplicationContext(), "4:" + e.toString(),
 							2000).show();
 
 				}
