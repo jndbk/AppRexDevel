@@ -1,7 +1,5 @@
 package rex.login;
 
-import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer.OnDrawerOpenListener;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +13,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 import rex.login.AppInfoHelper.AppDetails;
 import rex.login.AppInfoHelper.AppDetails.Times;
+import rex.login.SalesBarChart;
 import rex.login.IDemoChart;
 import rex.login.AbstractDemoChart;
 
@@ -39,7 +38,7 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyApps extends Activity {
+public class MyApps extends Activity  {
 	private TabHost mTabHost;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

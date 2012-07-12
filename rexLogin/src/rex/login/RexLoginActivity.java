@@ -358,7 +358,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
-        v.setAdapter(adapter); 
+        v.setAdapter(adapter);
     }
 
     public void logout()
