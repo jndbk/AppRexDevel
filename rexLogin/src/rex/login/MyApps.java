@@ -1,5 +1,6 @@
 package rex.login;
 
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import android.R.drawable;
 import android.R.string;
 
 import android.app.Activity;
+import android.app.ActivityGroup;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -38,7 +40,7 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyApps extends Activity  {
+public class MyApps extends ActivityGroup{
 	private TabHost mTabHost;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

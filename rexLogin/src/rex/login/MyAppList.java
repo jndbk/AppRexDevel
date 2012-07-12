@@ -1,20 +1,29 @@
 package rex.login;
 
+import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer;
+import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer.OnDrawerOpenListener;
+
 import java.text.SimpleDateFormat;
 
 import android.app.Activity;
+import android.app.ActivityGroup;
+import android.app.LocalActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyAppList {
+public class MyAppList implements OnDrawerOpenListener{
 	private View myapps;
-		public MyAppList(String appName, long timeLastPlayed, String icon, Activity act) {
+	private ActivityGroup mAct = null;
+		public MyAppList(String appName, long timeLastPlayed, String icon, ActivityGroup act) {
+		    mAct = act;
 		    try
 		    {
     		    setMyappslist(act.getLayoutInflater().inflate(R.layout.myapps, null));
@@ -34,6 +43,8 @@ public class MyAppList {
     			}
     			tv = (TextView) myapps.findViewById(R.id.atpd);
     			tv.setText(asString);
+    			MultiDirectionSlidingDrawer slide = (MultiDirectionSlidingDrawer) myapps.findViewById(R.id.drawer);
+    			slide.setOnDrawerOpenListener(this);
 		    }
             catch(Exception e)
             {
@@ -50,5 +61,17 @@ public class MyAppList {
 		public void setMyappslist(View myappslist) {
 			this.myapps = myappslist;
 		}
+
+        @Override
+        public void onDrawerOpened()
+        {
+            SalesStackedBarChart sb = new SalesStackedBarChart();
+            Intent in = sb.execute(mAct);
+            LocalActivityManager mgr = mAct.getLocalActivityManager();
+            Window w = mgr.startActivity("unique_per_activity_string", in);
+            View wd = w != null ? w.getDecorView() : null;
+            
+            
+        }
 
 }

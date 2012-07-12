@@ -25,8 +25,10 @@ import com.parse.facebook.Facebook;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -158,11 +160,27 @@ public class RexLoginActivity extends Activity implements OnClickListener
 //        }
         
         setContentView(R.layout.main);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Hello!")
+               .setPositiveButton("Log in with your Facebook account", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        login();
+                    }
+                })
+                .setNegativeButton("I don't want to log in", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                })
+                .create().show();
 
         Button button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener(){
         	public void onClick(View view){
         	    getInfo();
+//                SalesStackedBarChart sb = new SalesStackedBarChart();
+//                Intent in = sb.execute(this);
+//                startActivity(in);
+                
         		Intent myIntent = new Intent(view.getContext(), MyApps.class);
         		startActivityForResult(myIntent, 0);
         	}
@@ -203,10 +221,6 @@ public class RexLoginActivity extends Activity implements OnClickListener
         switch (clicked.getId())
         {
         case R.id.login:
-            if(clicked.getText().toString().equals(getResources().getString(R.string.Login)))
-                login(uName, pWord);
-            else
-                logout();
             break;
         case R.id.createAccount:
             getInfo();
@@ -428,7 +442,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
         
     }
     
-    public void login(String uname, String pword)
+    public void login()
     {
         Log.d("Parse", "Starting Facebook Login");
         ParseFacebookUtils.logIn(this, new LogInCallback()
