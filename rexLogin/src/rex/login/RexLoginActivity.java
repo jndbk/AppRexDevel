@@ -47,15 +47,13 @@ import rex.login.service.IAppService;
 //import stock.ticker.MyApps;
 //import stock.ticker.R;
 
-public class RexLoginActivity extends Activity implements OnClickListener
+public class RexLoginActivity extends Activity
 {
     protected static final String LOGGING_TAG = "AppRex";
     private IAppService appService;
     private ArrayList<AppInfo> appInfo;
     private AppsDb db;
     private boolean bound = false;
-    Button login;
-    String currentUser = null;
     boolean userInfoProcessed = false;
     private Map<String, AppAttributes> appAttributes;
     private final String mAppAttributesName = "AppAttr";
@@ -135,6 +133,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
         }
 
     };
+    private String currentUser;
 
     /** Called when the activity is first created. */
     @Override
@@ -160,19 +159,6 @@ public class RexLoginActivity extends Activity implements OnClickListener
 //        }
         
         setContentView(R.layout.main);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Hello!")
-               .setPositiveButton("Log in with your Facebook account", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        login();
-                    }
-                })
-                .setNegativeButton("I don't want to log in", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                })
-                .create().show();
-
         Button button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener(){
         	public void onClick(View view){
@@ -186,10 +172,6 @@ public class RexLoginActivity extends Activity implements OnClickListener
         	}
         });
         
-        Button createAccount = (Button) findViewById(R.id.createAccount);
-        login = (Button) findViewById(R.id.login);
-        createAccount.setOnClickListener(this);
-        login.setOnClickListener(this);
         Parse.initialize(this, "gentv1lxXI5DEP7K3kQbfNOOIIUoVSdSwTu8RQ8d",
                 "S1BixT6dROphY1hYMn2JRv3BZuNSRZcEibpyeeaj");
         ParseFacebookUtils.initialize("254743831280356");
@@ -203,31 +185,22 @@ public class RexLoginActivity extends Activity implements OnClickListener
             }
         }
         if(needLogin)
-            login.setText(R.string.Login);
-        else
-            login.setText(R.string.Logout);
-    }
-
-    public void onClick(View login)
-    {
-        
-        EditText userName = (EditText) findViewById(R.id.userName);
-        EditText passWord = (EditText) findViewById(R.id.passWord);
-        Button clicked = (Button) login;
-        if ((userName == null) || (passWord == null) || (clicked == null))
-            return;
-        String uName = userName.getText().toString();
-        String pWord = passWord.getText().toString();
-        switch (clicked.getId())
         {
-        case R.id.login:
-            break;
-        case R.id.createAccount:
-            getInfo();
-            createUser(uName, pWord);
-            break;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Hello!")
+                   .setPositiveButton("Log in with your Facebook account", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            login();
+                        }
+                    })
+                    .setNegativeButton("I don't want to log in", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    })
+                    .create().show();
         }
     }
+
 
     class CategoryResult extends FindCallback
     {
@@ -353,7 +326,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
                     2000).show();
         }        
     }
-    public void createUser(String uname, String pword)
+/*    public void createUser(String uname, String pword)
     {
         ListView v = (ListView) findViewById(R.id.applist);
         ArrayList<String> values = new ArrayList<String>();
@@ -374,13 +347,7 @@ public class RexLoginActivity extends Activity implements OnClickListener
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
         v.setAdapter(adapter);
     }
-
-    public void logout()
-    {
-        ParseUser.logOut();
-        login.setText(R.string.Login);
-    }
-    
+*/
     public String makeFbId(String id)
     {
         return "fb_" + id;
@@ -454,17 +421,14 @@ public class RexLoginActivity extends Activity implements OnClickListener
                 {
                     Log.d("Parse",
                             "Uh oh. The user cancelled the Facebook login.");
-                    login.setText(R.string.Login);
                 } else if (user.isNew())
                 {
                     Log.d("Parse",
                             "User signed up and logged in through Facebook!");
-                    login.setText(R.string.Logout);
                     processUserInfo();
                 } else
                 {
                     Log.d("Parse", "User logged in through Facebook!");
-                    login.setText(R.string.Logout);
                     processUserInfo();
                 }
             }
