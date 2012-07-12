@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" 
     android:layout_marginTop="15dip"
-    android:id="@+id/indapps">
+    android:id="@+id/myapps">
  	<RelativeLayout
  	    android:layout_width="wrap_content"
   		android:layout_height="wrap_content"
@@ -51,6 +51,7 @@
   			android:textSize="20dip"
   			android:layout_toRightOf="@id/appName"
   			android:layout_marginLeft="5dip" />
+  	    
    	    
 	<it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer
 		xmlns:my="http://schemas.android.com/apk/res/rex.login"
@@ -69,6 +70,6 @@
 			android:layout_height="40px"
 			android:src="@drawable/top_switcher_collapsed_focused" />
 	</it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer>
-  	    	    
+
 	</RelativeLayout>
 </LinearLayout>
