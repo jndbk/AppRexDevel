@@ -51,8 +51,8 @@
   			android:textSize="20dip"
   			android:layout_toRightOf="@id/appName"
   			android:layout_marginLeft="5dip" />
-  	    
    	    
+	</RelativeLayout>
 	<it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer
 		xmlns:my="http://schemas.android.com/apk/res/rex.login"
 		android:id="@+id/drawer"
@@ -63,7 +63,7 @@
 		my:content="@+id/content">
 		<include
 			android:id="@id/content"
-			layout="@layout/main" />
+			layout="@layout/drawer_contents" />
 		<ImageView
 			android:id="@id/handle"
 			android:layout_width="wrap_content"
@@ -71,5 +71,4 @@
 			android:src="@drawable/top_switcher_collapsed_focused" />
 	</it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer>
 
-	</RelativeLayout>
 </LinearLayout>

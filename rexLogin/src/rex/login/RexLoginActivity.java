@@ -163,10 +163,6 @@ public class RexLoginActivity extends Activity
         button2.setOnClickListener(new View.OnClickListener(){
         	public void onClick(View view){
         	    getInfo();
-//                SalesStackedBarChart sb = new SalesStackedBarChart();
-//                Intent in = sb.execute(this);
-//                startActivity(in);
-                
         		Intent myIntent = new Intent(view.getContext(), MyApps.class);
         		startActivityForResult(myIntent, 0);
         	}

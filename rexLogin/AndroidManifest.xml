@@ -35,5 +35,6 @@
             </intent-filter>
         </activity>
         <activity android:name="MyApps"></activity>
-    </application>
+        <activity android:name="org.achartengine.GraphicalActivity" />
+		</application>
 </manifest>

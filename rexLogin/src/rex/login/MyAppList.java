@@ -11,17 +11,21 @@ import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyAppList implements OnDrawerOpenListener{
 	private View myapps;
 	private ActivityGroup mAct = null;
+    static int nameNum = 0;
+
 		public MyAppList(String appName, long timeLastPlayed, String icon, ActivityGroup act) {
 		    mAct = act;
 		    try
@@ -65,11 +69,19 @@ public class MyAppList implements OnDrawerOpenListener{
         @Override
         public void onDrawerOpened()
         {
-            /*SalesStackedBarChart sb = new SalesStackedBarChart();
+            SalesStackedBarChart sb = new SalesStackedBarChart();
             Intent in = sb.execute(mAct);
+            
+            String sss = "Act" + Integer.toString(nameNum);
+            ++nameNum;
             LocalActivityManager mgr = mAct.getLocalActivityManager();
-            Window w = mgr.startActivity("unique_per_activity_string", in);
-            View wd = w != null ? w.getDecorView() : null;*/
+            Window w = mgr.startActivity(sss, in);
+//            Window w = mgr.startActivity("unique_per_activity_string", in);
+            View wd = w != null ? w.getDecorView() : null;
+            Log.d("Parse", wd.toString());
+            LinearLayout tv = (LinearLayout) myapps.findViewById(R.id.drawerLayout);
+            tv.addView(wd);
+            
             
             
         }
