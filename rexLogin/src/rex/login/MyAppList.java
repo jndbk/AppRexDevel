@@ -65,11 +65,11 @@ public class MyAppList implements OnDrawerOpenListener{
         @Override
         public void onDrawerOpened()
         {
-            SalesStackedBarChart sb = new SalesStackedBarChart();
+            /*SalesStackedBarChart sb = new SalesStackedBarChart();
             Intent in = sb.execute(mAct);
             LocalActivityManager mgr = mAct.getLocalActivityManager();
             Window w = mgr.startActivity("unique_per_activity_string", in);
-            View wd = w != null ? w.getDecorView() : null;
+            View wd = w != null ? w.getDecorView() : null;*/
             
             
         }
