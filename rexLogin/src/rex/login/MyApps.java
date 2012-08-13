@@ -70,7 +70,7 @@ public class MyApps extends ActivityGroup{
 			{
 				try
 				{
-					MyAppList myapplist = new MyAppList(sum.appName, sum.timeLastPlayed, sum.icon, this);
+					MyAppList myapplist = new MyAppList(sum.packageName, sum.appName, sum.timeLastPlayed, sum.icon, this);
 					ViewGroup displayapps = (ViewGroup) category.findViewById(R.id.displayapps);
 					if(displayapps == null)
 					    continue;

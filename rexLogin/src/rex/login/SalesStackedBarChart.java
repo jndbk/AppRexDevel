@@ -49,6 +49,35 @@ public class SalesStackedBarChart extends AbstractDemoChart {
     return "The monthly sales for the last 2 years (stacked bar chart)";
   }
 
+  class AppIntervals
+  {
+      String appName;
+      List< Boolean > active; // one for every minute of the day
+  }
+  public void setValues(List< AppIntervals > appIntervals)
+  {
+      for(int hour = 0; hour < 24; ++hour)
+      {
+          ArrayList<Integer> cur = new ArrayList<Integer>();
+          for(int n = 0; n < appIntervals.size(); ++n)
+          {
+              cur.add(0);          
+          }
+          int curNum = 0;
+          int curActive = appIntervals.size() - 1;
+          for(int minute = 0; minute < 60; ++minute)
+          {
+              int binNum = hour * 60 + minute;
+              AppIntervals curAi = appIntervals.get(curActive);
+              if(curAi.active.get(binNum))
+              {
+                  curNum = minute + 1;
+              }
+              
+              
+          }
+      }
+  }
   /**
    * Executes the chart demo.
    * 
@@ -56,18 +85,33 @@ public class SalesStackedBarChart extends AbstractDemoChart {
    * @return the built intent
    */
   public Intent execute(Context context) {
-    String[] titles = new String[] { "2008", "2007" };
+    String[] titles = new String[] { "","", "", "", "","","",""};
     List<double[]> values = new ArrayList<double[]>();
-    values.add(new double[] { 14230, 12300, 14240, 15244, 15900, 19200, 22030, 21200, 19500, 15500,
-        12600, 14000 });
-    values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030, 11200, 9500, 10500,
-        11600, 13500 });
-    int[] colors = new int[] { Color.BLUE, Color.CYAN };
+    values.add(new double[] {0,60}); //idle
+    values.add(new double[] {0,50});// busy
+    values.add(new double[] {60,45});// idle
+    values.add(new double[] {40,20});// busy
+    values.add(new double[] {40,0});// app
+    values.add(new double[] {30,15});// idle
+    values.add(new double[] {16,7});    //busy
+    values.add(new double[] {8,0});     //idle
+//    values.add(new double[] { 1000, 12300, 14240, 15244, 15900, 19200, 22030, 21200, 19500, 15500,
+//        12600, 14000 });
+//    values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030, 11200, 9500, 10500,
+//        11600, 13500 });
+    int[] colors = new int[] { Color.BLUE, Color.CYAN, Color.BLUE, Color.CYAN, Color.GREEN, Color.BLUE, Color.CYAN, Color.BLUE };
     XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-    setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.5,
-        12.5, 0, 24000, Color.GRAY, Color.LTGRAY);
+//  setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.5,
+//  12.5, 0, 24000, Color.GRAY, Color.LTGRAY);
+    setChartSettings(renderer, "Monthly sales in the last 2 years", "Hour", "Ap", 0,
+    2, 0, 60, Color.GRAY, Color.LTGRAY);
     renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
     renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
+    renderer.getSeriesRendererAt(2).setDisplayChartValues(true);
+    renderer.getSeriesRendererAt(3).setDisplayChartValues(true);
+    renderer.getSeriesRendererAt(4).setDisplayChartValues(true);
+    renderer.getSeriesRendererAt(5).setDisplayChartValues(true);
+    renderer.getSeriesRendererAt(6).setDisplayChartValues(true);
     renderer.setXLabels(12);
     renderer.setYLabels(10);
     renderer.setXLabelsAlign(Align.LEFT);

@@ -3,6 +3,7 @@ package rex.login;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -155,17 +157,33 @@ public class RexLoginActivity extends Activity
 //        {
 //          startService(new Intent(this, MonitorService.class));
 //          Toast.makeText(getApplicationContext(), "Starting Service",
+        
 //                 2000).show();
 //        }
+        
         
         setContentView(R.layout.main);
         Button button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener(){
         	public void onClick(View view){
         	    getInfo();
+        	    
+                
         		Intent myIntent = new Intent(view.getContext(), MyApps.class);
         		startActivityForResult(myIntent, 0);
         	}
+        });
+        button2.setOnLongClickListener(new OnLongClickListener() { 
+            @Override
+            public boolean onLongClick(View v) {
+                createUser("","");
+                SalesStackedBarChart sb = new SalesStackedBarChart();
+                Intent in = sb.execute(RexLoginActivity.this);
+                startActivity(in);
+
+                // TODO Auto-generated method stub
+                return true;
+            }
         });
         
         Parse.initialize(this, "gentv1lxXI5DEP7K3kQbfNOOIIUoVSdSwTu8RQ8d",
@@ -322,7 +340,7 @@ public class RexLoginActivity extends Activity
                     2000).show();
         }        
     }
-/*    public void createUser(String uname, String pword)
+   public void createUser(String uname, String pword)
     {
         ListView v = (ListView) findViewById(R.id.applist);
         ArrayList<String> values = new ArrayList<String>();
@@ -336,6 +354,14 @@ public class RexLoginActivity extends Activity
             for(AppInfoHelper.AppSummary sum: appsByUsage)
             {
                 values.add(sum.appName);
+                AppInfoHelper.AppDetails det = AppInfoHelper.instance().getDetails(sum.packageName);
+                for(AppInfoHelper.AppDetails.Times t: det.times)
+                {
+                    values.add(Long.toString(t.start/1000) + " " + Long.toString(t.stop/1000));
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd hh:mm:ss a");
+                    String asString = formatter.format(t.start) + " " + formatter.format(t.stop);
+                    values.add(asString);
+                }
                 
             }
         }
@@ -343,7 +369,7 @@ public class RexLoginActivity extends Activity
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
         v.setAdapter(adapter);
     }
-*/
+
     public String makeFbId(String id)
     {
         return "fb_" + id;

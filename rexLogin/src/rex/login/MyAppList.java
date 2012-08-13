@@ -4,6 +4,10 @@ import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer;
 import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer.OnDrawerOpenListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+import rex.login.AppInfoHelper.DeviceAppState;
 
 import android.app.Activity;
 import android.app.ActivityGroup;
@@ -25,9 +29,11 @@ public class MyAppList implements OnDrawerOpenListener{
 	private View myapps;
 	private ActivityGroup mAct = null;
     static int nameNum = 0;
+    String mPackageName = null;
 
-		public MyAppList(String appName, long timeLastPlayed, String icon, ActivityGroup act) {
+		public MyAppList(String packageName, String appName, long timeLastPlayed, String icon, ActivityGroup act) {
 		    mAct = act;
+		    mPackageName = packageName;
 		    try
 		    {
     		    setMyappslist(act.getLayoutInflater().inflate(R.layout.myapps, null));
@@ -69,6 +75,21 @@ public class MyAppList implements OnDrawerOpenListener{
         @Override
         public void onDrawerOpened()
         {
+            long now = new Date().getTime();
+            long offset = TimeZone.getDefault().getOffset(now);
+            now += offset;  // Figure out midnight in terms of local time
+            long startTime = now - (now % (60 * 60 * 24 * 1000));
+            startTime -= offset; // Now back to UTC
+            long n = 0;
+            DeviceAppState[] binnedApps = AppInfoHelper.instance().getAppBins(mPackageName, startTime, 60*1000, 24 * 60);
+            for(DeviceAppState s: binnedApps)
+            {
+                if(s == DeviceAppState.DASTATE_OTHER)
+                    Log.d("AppInfoHelper", Long.toString(startTime + (n*60*1000)) + "Running");
+                else if(s == DeviceAppState.DASTATE_APP)
+                    Log.d("AppInfoHelper", Long.toString(startTime + (n*60*1000)) + "App Running");
+                ++n;
+            }
             SalesStackedBarChart sb = new SalesStackedBarChart();
             Intent in = sb.execute(mAct);
             

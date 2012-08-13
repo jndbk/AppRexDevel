@@ -112,11 +112,22 @@ public class AppsDb
 
     public ArrayList<AppInfo> getAppInfo(String pkg)
     {
+        return getAppInfo(pkg, true);
+    }
+    
+    public ArrayList<AppInfo> getAppInfo(String pkg, boolean descendingOrder)
+    {
+        String orderStr = null;
+        if(descendingOrder)
+            orderStr = "desc";
+        else
+            orderStr = "asc";
+            
         String queryStr;
         if(pkg == null)
-            queryStr = "SELECT * from processes order by start_time desc";
+            queryStr = "SELECT * from processes order by start_time " + orderStr;
         else
-            queryStr = "SELECT * from processes where " + PACKAGENAME + " = '" + pkg + "' order by start_time desc";
+            queryStr = "SELECT * from processes where " + PACKAGENAME + " = '" + pkg + "' order by start_time " + orderStr;
        
         Cursor results = db.rawQuery(queryStr, null);
         int num = results.getCount();

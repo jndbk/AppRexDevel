@@ -77,7 +77,7 @@ public class MonitorService extends Service
         mAppInfos = new HashMap<String, ParseObject>();
         super.onCreate();
         db = new AppsDb(this);
-        //android.os.Debug.waitForDebugger();
+        android.os.Debug.waitForDebugger();
 
         Context context = this.getApplicationContext();
         AlarmManager mgr = (AlarmManager) context
@@ -134,6 +134,7 @@ public class MonitorService extends Service
             if (now - cai.lastTimeSeen > 60000)
                 currentApps.remove(k);
         }
+        updateApp("APP_ALL", null, now);
 
         List<RunningAppProcessInfo> taskInfo = null;
         try
@@ -169,24 +170,7 @@ public class MonitorService extends Service
                             && !aname.equals("Launcher")
                             && !aname.equals("Android System"))
                     {
-                        CurAppInfo curInfo = currentApps.get(aname);
-                        if (curInfo == null)
-                        {
-                            String packageName = this.getPackageName(aname, pm);
-                            Log.d("AppsDb", packageName);
-                            if(packageName == null)
-                                packageName = "";
-                            int curId = db.startApp(aname, packageName);
-                            Log.d("AppsDb", "Starting new app: " + aname);
-                            CurAppInfo ai = new CurAppInfo(curId, now, now);
-                            currentApps.put(aname, ai);
-                        } else
-                        {
-                            db.updateApp(curInfo.id);
-                            curInfo.lastTimeSeen = now;
-                            Log.d("AppsDb", "Updating app: " + aname);
-                        }
-
+                        updateApp(aname, pm, now);
                     }
                 } catch (Exception e)
                 {
@@ -202,7 +186,31 @@ public class MonitorService extends Service
         }
         return Service.START_STICKY;
     }
-
+    public void updateApp(String aname, PackageManager pm, long now)
+    {
+        CurAppInfo curInfo = currentApps.get(aname);
+        if (curInfo == null || curInfo.id == -1)
+        {
+            String packageName = null;
+            if(aname.contentEquals("APP_ALL"))
+                packageName = "PKG_ALL";
+            else
+                packageName = getPackageName(aname, pm);
+            Log.d("AppsDb", packageName);
+            if(packageName == null)
+                packageName = "";
+            int curId = db.startApp(aname, packageName);
+            Log.d("AppsDb", "Starting new app: " + aname);
+            CurAppInfo ai = new CurAppInfo(curId, now, now);
+            currentApps.put(aname, ai);
+        } else
+        {
+            db.updateApp(curInfo.id);
+            curInfo.lastTimeSeen = now;
+            Log.d("AppsDb", "Updating app: " + aname);
+        }
+        
+    }
     public void publicizeCurApp(String aname, CurAppInfo info)
     {
         if ((currentUser != null) && (curPublicizedApp != aname))
