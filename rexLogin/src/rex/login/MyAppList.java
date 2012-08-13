@@ -30,6 +30,8 @@ public class MyAppList implements OnDrawerOpenListener{
 	private ActivityGroup mAct = null;
     static int nameNum = 0;
     String mPackageName = null;
+    private int containerwidth = myapps.getWidth();
+    private int containerheight = myapps.getHeight();
 
 		public MyAppList(String packageName, String appName, long timeLastPlayed, String icon, ActivityGroup act) {
 		    mAct = act;
@@ -55,6 +57,10 @@ public class MyAppList implements OnDrawerOpenListener{
     			tv.setText(asString);
     			MultiDirectionSlidingDrawer slide = (MultiDirectionSlidingDrawer) myapps.findViewById(R.id.drawer);
     			slide.setOnDrawerOpenListener(this);
+    		    int containerwidth = myapps.getWidth();
+    		    int containerheight = myapps.getHeight();
+    			slide.setMinimumHeight(containerheight);
+    			slide.setMinimumWidth(containerwidth);
 		    }
             catch(Exception e)
             {
@@ -102,8 +108,6 @@ public class MyAppList implements OnDrawerOpenListener{
             Log.d("Parse", wd.toString());
             LinearLayout tv = (LinearLayout) myapps.findViewById(R.id.drawerLayout);
             tv.addView(wd);
-            
-            
             
         }
 

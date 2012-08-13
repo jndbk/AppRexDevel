@@ -57,7 +57,7 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:background="#FFFFFF" 
-    	android:layout_marginTop="20dip"
+    	android:layout_marginTop="10dip"
     	android:id="@+id/putappshere" >
     	
 	</LinearLayout>

@@ -1,5 +1,7 @@
 package rex.login;
 
+import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -136,6 +138,7 @@ public class RexLoginActivity extends Activity
 
     };
     private String currentUser;
+	private View main;
 
     /** Called when the activity is first created. */
     @Override
@@ -167,7 +170,9 @@ public class RexLoginActivity extends Activity
         button2.setOnClickListener(new View.OnClickListener(){
         	public void onClick(View view){
         	    getInfo();
-        	    
+//                SalesStackedBarChart sb = new SalesStackedBarChart();
+//                Intent in = sb.execute(this);
+//                startActivity(in);
                 
         		Intent myIntent = new Intent(view.getContext(), MyApps.class);
         		startActivityForResult(myIntent, 0);
