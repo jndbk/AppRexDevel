@@ -1,6 +1,7 @@
 package rex.login;
 
 import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer;
+import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer.OnDrawerCloseListener;
 import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer.OnDrawerOpenListener;
 
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,13 +27,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyAppList implements OnDrawerOpenListener{
+public class MyAppList implements OnDrawerCloseListener, OnDrawerOpenListener{
 	private View myapps;
 	private ActivityGroup mAct = null;
     static int nameNum = 0;
     String mPackageName = null;
-    private int containerwidth = myapps.getWidth();
-    private int containerheight = myapps.getHeight();
+    private int containerwidth = 0;
+    private int containerheight = 0;
+    LayoutParams saveLayout = null;
 
 		public MyAppList(String packageName, String appName, long timeLastPlayed, String icon, ActivityGroup act) {
 		    mAct = act;
@@ -39,6 +42,7 @@ public class MyAppList implements OnDrawerOpenListener{
 		    try
 		    {
     		    setMyappslist(act.getLayoutInflater().inflate(R.layout.myapps, null));
+
     			TextView tv = (TextView) myapps.findViewById(R.id.appName);
     			tv.setText(appName);
     			if(!icon.contentEquals("na"))
@@ -57,10 +61,7 @@ public class MyAppList implements OnDrawerOpenListener{
     			tv.setText(asString);
     			MultiDirectionSlidingDrawer slide = (MultiDirectionSlidingDrawer) myapps.findViewById(R.id.drawer);
     			slide.setOnDrawerOpenListener(this);
-    		    int containerwidth = myapps.getWidth();
-    		    int containerheight = myapps.getHeight();
-    			slide.setMinimumHeight(containerheight);
-    			slide.setMinimumWidth(containerwidth);
+    			slide.setOnDrawerCloseListener(this);
 		    }
             catch(Exception e)
             {
@@ -81,6 +82,17 @@ public class MyAppList implements OnDrawerOpenListener{
         @Override
         public void onDrawerOpened()
         {
+            if(containerwidth == 0) // First time this is called, save the original inflated dimensions
+            {
+                containerwidth = myapps.getWidth();
+                containerheight = myapps.getHeight();
+                this.saveLayout = new LayoutParams(myapps.getLayoutParams());
+            }
+            MultiDirectionSlidingDrawer slide = (MultiDirectionSlidingDrawer) myapps.findViewById(R.id.drawer);
+            LayoutParams l = slide.getLayoutParams();
+            l.width = containerwidth;
+            l.height = (int) ((double) containerwidth * 1.1);
+            
             long now = new Date().getTime();
             long offset = TimeZone.getDefault().getOffset(now);
             now += offset;  // Figure out midnight in terms of local time
@@ -108,6 +120,14 @@ public class MyAppList implements OnDrawerOpenListener{
             Log.d("Parse", wd.toString());
             LinearLayout tv = (LinearLayout) myapps.findViewById(R.id.drawerLayout);
             tv.addView(wd);
+            
+        }
+
+        @Override
+        public void onDrawerClosed()
+        {
+            // TODO Auto-generated method stub
+            //myapps.setLayoutParams(this.saveLayout);
             
         }
 

@@ -6,7 +6,7 @@
     android:layout_marginTop="15dip"
     android:id="@+id/myapps">
  	<RelativeLayout
- 	    android:layout_width="wrap_content"
+ 	    android:layout_width="fill_parent"
   		android:layout_height="wrap_content"
   		android:id="@+id/a" >
  	   <TextView 
@@ -57,8 +57,8 @@
 		xmlns:my="http://schemas.android.com/apk/res/rex.login"
 		android:id="@+id/drawer"
 		my:direction="topToBottom"
-		android:layout_width="30dip"
-		android:layout_height="15dip"
+		android:layout_width="200dip"
+		android:layout_height="50dip"
 		android:layout_gravity="center_horizontal"
 		android:layout_margin="10dip"
 		my:handle="@+id/handle"
@@ -68,8 +68,8 @@
 			layout="@layout/drawer_contents" />
 		<ImageView
 			android:id="@id/handle"
-			android:layout_width="30dip"
-			android:layout_height="15dip"
+			android:layout_width="90dip"
+			android:layout_height="40dip"
 			android:src="@drawable/top_switcher_collapsed_focused" />
 	</it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer>
 
