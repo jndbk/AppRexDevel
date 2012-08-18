@@ -16,6 +16,7 @@
 package rex.login;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
@@ -54,29 +55,121 @@ public class SalesStackedBarChart extends AbstractDemoChart {
       String appName;
       List< Boolean > active; // one for every minute of the day
   }
-  public void setValues(List< AppIntervals > appIntervals)
+  class PriorityList
   {
-      for(int hour = 0; hour < 24; ++hour)
+      int binNum;
+      int index; // The highest priority app which is active
+  }
+  String[] titles = null;
+  LinkedList<double[]> values = null;
+  int[] colors = null;
+  public boolean setValues(List< AppIntervals > appIntervals, int numColumns, int binsPerColumn)
+  {
+      int numApps = appIntervals.size();
+      int maxColSize = 0;
+      ArrayList< ArrayList<PriorityList> > pCollection = new ArrayList< ArrayList<PriorityList> >();
+      for(int hour = 0; hour < numColumns; ++hour)
       {
-          ArrayList<Integer> cur = new ArrayList<Integer>();
-          for(int n = 0; n < appIntervals.size(); ++n)
+          ArrayList<PriorityList> pList = new ArrayList<PriorityList>();
+          pCollection.add(pList);
+          int curActive = 0;
+          // Find out where we start
+          for(int n = appIntervals.size() - 1; n >= 0; --n)
           {
-              cur.add(0);          
-          }
-          int curNum = 0;
-          int curActive = appIntervals.size() - 1;
-          for(int minute = 0; minute < 60; ++minute)
-          {
-              int binNum = hour * 60 + minute;
-              AppIntervals curAi = appIntervals.get(curActive);
-              if(curAi.active.get(binNum))
+              List<Boolean> curAi = appIntervals.get(n).active;
+              if(curAi.get(hour*binsPerColumn))
               {
-                  curNum = minute + 1;
+                  curActive = n + 1;
+                  break;
               }
-              
-              
+          }
+          PriorityList p = new PriorityList();
+          for(int minute = 0; minute < binsPerColumn; ++minute)
+          {
+              int binNum = hour * binsPerColumn + minute;
+              int lastActive = curActive;
+              curActive = 0;
+              for(int n = appIntervals.size() - 1; n >= 0; --n)
+              {
+                  List<Boolean> curAi = appIntervals.get(n).active;
+                  if(curAi.get(binNum))
+                  {
+                      curActive = n + 1;
+                      break;
+                  }
+              }
+              if(curActive != lastActive)
+              {
+                  p = new PriorityList();
+                  p.binNum = minute;
+                  p.index = lastActive;
+                  pList.add(p);
+              }
+          }
+          p = new PriorityList();
+          p.binNum = binsPerColumn;
+          p.index = curActive;
+          pList.add(p);
+          
+          if(pList.size() > maxColSize)
+              maxColSize = pList.size();
+      }
+      ++maxColSize;
+      titles = new String[maxColSize * (numApps + 1)];
+      values = new LinkedList<double[]>();
+      colors = new int[maxColSize * (numApps + 1)];
+      for(int n = 0; n < maxColSize; ++n)
+      {
+          for(int m = 0; m <= numApps; ++m)
+          {
+              int index = n * (numApps + 1) + m;
+              if(n == 0)
+              {
+                  if(m == numApps)
+                      titles[index] = "Idle";
+                  else
+                      titles[index] = appIntervals.get(numApps - m - 1).appName;
+              }
+              else
+                  titles[index] = "";
+              if(m == 2)
+                  colors[index] = Color.BLUE;
+              else if (m == 1)
+                  colors[index] = Color.CYAN;
+              else if (m == 0)
+                  colors[index] = Color.GREEN;
           }
       }
+      boolean allDone = false;
+      int curIndex = 0;
+      while(!allDone)
+      {
+          allDone = true;
+          for(int appNum = 0; appNum <= numApps; ++appNum)
+          {
+              double[] row = new double[numColumns];
+              for(int colNum = 0; colNum < numColumns; ++colNum)
+              {
+                  int curAppNum = 0;
+                  int curHeight = 0;
+                  ArrayList<PriorityList> pList = pCollection.get(colNum);
+                  if(curIndex < pList.size())
+                  {
+                      PriorityList p = pList.get(curIndex);
+                      curAppNum = p.index;
+                      curHeight = p.binNum;
+                      allDone = false;
+                  }
+                  if(appNum == curAppNum)
+                      row[colNum] = curHeight;
+                  else
+                      row[colNum] = 0;
+              }
+              values.addFirst(row);
+          }
+          ++curIndex;
+      }
+      return true;
   }
   /**
    * Executes the chart demo.
@@ -85,6 +178,36 @@ public class SalesStackedBarChart extends AbstractDemoChart {
    * @return the built intent
    */
   public Intent execute(Context context) {
+      // debug code
+      List< AppIntervals > appIntervals = new ArrayList<AppIntervals>();
+      AppIntervals ai = new AppIntervals();
+      ai.active = new ArrayList<Boolean>();
+      ai.appName = "AllApps";
+      for(int n = 0; n < 3; ++n)
+          ai.active.add(true);
+      for(int n = 3; n < 5; ++n)
+          ai.active.add(false);
+      for(int n = 5; n < 9; ++n)
+          ai.active.add(true);
+      ai.active.add(false);
+      appIntervals.add(ai);
+
+      ai = new AppIntervals();
+      ai.active = new ArrayList<Boolean>();
+      ai.appName = "AppRex";
+      for(int n = 0; n < 3; ++n)
+          ai.active.add(true);
+      for(int n = 3; n < 8; ++n)
+          ai.active.add(false);
+      ai.active.add(true);
+      ai.active.add(false);
+      appIntervals.add(ai);
+      
+      //this.setValues(appIntervals, 2, 5);
+      
+      
+      
+/*      
     String[] titles = new String[] { "","", "", "", "","","",""};
     List<double[]> values = new ArrayList<double[]>();
     values.add(new double[] {0,60}); //idle
@@ -100,11 +223,12 @@ public class SalesStackedBarChart extends AbstractDemoChart {
 //    values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030, 11200, 9500, 10500,
 //        11600, 13500 });
     int[] colors = new int[] { Color.BLUE, Color.CYAN, Color.BLUE, Color.CYAN, Color.GREEN, Color.BLUE, Color.CYAN, Color.BLUE };
+*/
     XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
 //  setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.5,
 //  12.5, 0, 24000, Color.GRAY, Color.LTGRAY);
     setChartSettings(renderer, "Monthly sales in the last 2 years", "Hour", "Ap", 0,
-    2, 0, 60, Color.GRAY, Color.LTGRAY);
+    24, 0, 60, Color.GRAY, Color.LTGRAY);
     renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
     renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
     renderer.getSeriesRendererAt(2).setDisplayChartValues(true);

@@ -210,8 +210,10 @@ public class AppInfoHelper
         binIt(bins, test, DeviceAppState.DASTATE_APP, 0, 5, 20);
         */
         AppDetails allApps = getDetails("PKG_ALL", false);
+        allApps.appInfo.appName = "All Apps";
         binIt(bins, allApps, DeviceAppState.DASTATE_OTHER, startTime, binSize, numBins);
         AppDetails thisApp = getDetails(packageName, false);
+        thisApp.appInfo.appName = packageName;
         binIt(bins, thisApp, DeviceAppState.DASTATE_APP, startTime, binSize, numBins);
 
         return bins;

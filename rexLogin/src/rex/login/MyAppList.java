@@ -6,6 +6,7 @@ import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer.OnDrawerOpenL
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.TimeZone;
 
 import rex.login.AppInfoHelper.DeviceAppState;
@@ -100,15 +101,39 @@ public class MyAppList implements OnDrawerCloseListener, OnDrawerOpenListener{
             startTime -= offset; // Now back to UTC
             long n = 0;
             DeviceAppState[] binnedApps = AppInfoHelper.instance().getAppBins(mPackageName, startTime, 60*1000, 24 * 60);
+
+            SalesStackedBarChart sb = new SalesStackedBarChart();
+            LinkedList<SalesStackedBarChart.AppIntervals> appIntervals = new LinkedList<SalesStackedBarChart.AppIntervals>();
+            for(int m = 0; m < 3; ++m)
+            {
+                SalesStackedBarChart.AppIntervals aa = sb.new AppIntervals();
+                appIntervals.add(aa);
+                LinkedList<Boolean> states = new LinkedList<Boolean>();
+                aa.active = states;
+            }
             for(DeviceAppState s: binnedApps)
             {
+                if(s == DeviceAppState.DASTATE_IDLE)
+                {
+                    appIntervals.get(0).active.add(true);
+                    appIntervals.get(1).active.add(false);
+                    appIntervals.get(2).active.add(false);
+                }
                 if(s == DeviceAppState.DASTATE_OTHER)
-                    Log.d("AppInfoHelper", Long.toString(startTime + (n*60*1000)) + "Running");
+                {
+                    appIntervals.get(0).active.add(false);
+                    appIntervals.get(1).active.add(true);
+                    appIntervals.get(2).active.add(false);
+                }
                 else if(s == DeviceAppState.DASTATE_APP)
-                    Log.d("AppInfoHelper", Long.toString(startTime + (n*60*1000)) + "App Running");
+                {
+                    appIntervals.get(0).active.add(false);
+                    appIntervals.get(1).active.add(false);
+                    appIntervals.get(2).active.add(true);
+                }
                 ++n;
             }
-            SalesStackedBarChart sb = new SalesStackedBarChart();
+            sb.setValues(appIntervals, 24, 60);
             Intent in = sb.execute(mAct);
             
             String sss = "Act" + Integer.toString(nameNum);
