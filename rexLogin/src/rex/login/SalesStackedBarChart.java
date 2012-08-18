@@ -79,7 +79,7 @@ public class SalesStackedBarChart extends AbstractDemoChart {
               List<Boolean> curAi = appIntervals.get(n).active;
               if(curAi.get(hour*binsPerColumn))
               {
-                  curActive = n + 1;
+                  curActive = n;
                   break;
               }
           }
@@ -94,7 +94,7 @@ public class SalesStackedBarChart extends AbstractDemoChart {
                   List<Boolean> curAi = appIntervals.get(n).active;
                   if(curAi.get(binNum))
                   {
-                      curActive = n + 1;
+                      curActive = n;
                       break;
                   }
               }
@@ -115,20 +115,17 @@ public class SalesStackedBarChart extends AbstractDemoChart {
               maxColSize = pList.size();
       }
       ++maxColSize;
-      titles = new String[maxColSize * (numApps + 1)];
+      titles = new String[maxColSize * (numApps)];
       values = new LinkedList<double[]>();
-      colors = new int[maxColSize * (numApps + 1)];
+      colors = new int[maxColSize * (numApps)];
       for(int n = 0; n < maxColSize; ++n)
       {
-          for(int m = 0; m <= numApps; ++m)
+          for(int m = 0; m < numApps; ++m)
           {
-              int index = n * (numApps + 1) + m;
+              int index = n * (numApps) + m;
               if(n == 0)
               {
-                  if(m == numApps)
-                      titles[index] = "Idle";
-                  else
-                      titles[index] = appIntervals.get(numApps - m - 1).appName;
+                  titles[index] = appIntervals.get(numApps - m - 1).appName;
               }
               else
                   titles[index] = "";
@@ -145,7 +142,7 @@ public class SalesStackedBarChart extends AbstractDemoChart {
       while(!allDone)
       {
           allDone = true;
-          for(int appNum = 0; appNum <= numApps; ++appNum)
+          for(int appNum = 0; appNum < numApps; ++appNum)
           {
               double[] row = new double[numColumns];
               for(int colNum = 0; colNum < numColumns; ++colNum)

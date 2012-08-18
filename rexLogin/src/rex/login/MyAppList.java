@@ -94,11 +94,23 @@ public class MyAppList implements OnDrawerCloseListener, OnDrawerOpenListener{
             l.width = containerwidth;
             l.height = (int) ((double) containerwidth * 1.1);
             
+            /* this code displays from midnight of the current day 
             long now = new Date().getTime();
             long offset = TimeZone.getDefault().getOffset(now);
             now += offset;  // Figure out midnight in terms of local time
             long startTime = now - (now % (60 * 60 * 24 * 1000));
             startTime -= offset; // Now back to UTC
+            */
+            /* This code displays the last 24 hours */
+            long now = new Date().getTime();
+            // get one hour from now
+            now += 60 * 60 * 1000;
+            // Now get the start of the hour
+            now = now - (now % (60 * 60 * 1000));
+            // Now go back 24 hours
+            long startTime = now - (60 * 60 * 24 * 1000);
+            
+            
             long n = 0;
             DeviceAppState[] binnedApps = AppInfoHelper.instance().getAppBins(mPackageName, startTime, 60*1000, 24 * 60);
 
@@ -110,6 +122,12 @@ public class MyAppList implements OnDrawerCloseListener, OnDrawerOpenListener{
                 appIntervals.add(aa);
                 LinkedList<Boolean> states = new LinkedList<Boolean>();
                 aa.active = states;
+                if(m == 0)
+                    aa.appName = "Idle";
+                else if(m == 1)
+                    aa.appName = "All Apps";
+                else
+                    aa.appName = mPackageName;
             }
             for(DeviceAppState s: binnedApps)
             {
