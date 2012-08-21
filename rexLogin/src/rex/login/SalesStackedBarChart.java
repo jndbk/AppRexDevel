@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
@@ -50,6 +51,12 @@ public class SalesStackedBarChart extends AbstractDemoChart {
     return "The monthly sales for the last 2 years (stacked bar chart)";
   }
 
+  
+  private int startHour;
+  public void setStartHour(int hour)
+  {
+      startHour = hour;
+  }
   class AppIntervals
   {
       String appName;
@@ -60,9 +67,9 @@ public class SalesStackedBarChart extends AbstractDemoChart {
       int binNum;
       int index; // The highest priority app which is active
   }
-  String[] titles = null;
-  LinkedList<double[]> values = null;
-  int[] colors = null;
+  private String[] titles = null;
+  private LinkedList<double[]> values = null;
+  private int[] colors = null;
   public boolean setValues(List< AppIntervals > appIntervals, int numColumns, int binsPerColumn)
   {
       int numApps = appIntervals.size();
@@ -174,7 +181,7 @@ public class SalesStackedBarChart extends AbstractDemoChart {
    * @param context the context
    * @return the built intent
    */
-  public Intent execute(Context context) {
+  public GraphicalView execute(Context context) {
       // debug code
       List< AppIntervals > appIntervals = new ArrayList<AppIntervals>();
       AppIntervals ai = new AppIntervals();
@@ -224,7 +231,7 @@ public class SalesStackedBarChart extends AbstractDemoChart {
     XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
 //  setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.5,
 //  12.5, 0, 24000, Color.GRAY, Color.LTGRAY);
-    setChartSettings(renderer, "Monthly sales in the last 2 years", "Hour", "Ap", 0,
+    setChartSettings(renderer, "Last 24 hours usage", "Hour", "Minute", 1,
     24, 0, 60, Color.GRAY, Color.LTGRAY);
     renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
     renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
@@ -233,15 +240,37 @@ public class SalesStackedBarChart extends AbstractDemoChart {
     renderer.getSeriesRendererAt(4).setDisplayChartValues(true);
     renderer.getSeriesRendererAt(5).setDisplayChartValues(true);
     renderer.getSeriesRendererAt(6).setDisplayChartValues(true);
-    renderer.setXLabels(12);
+    renderer.setInScroll(true);
     renderer.setYLabels(10);
-    renderer.setXLabelsAlign(Align.LEFT);
+    renderer.setShowGridY(true);
+    renderer.setGridColor(0x808080);
+    //renderer.setXLabelsAlign(Align.LEFT);
     renderer.setYLabelsAlign(Align.LEFT);
     renderer.setPanEnabled(true, false);
-    // renderer.setZoomEnabled(false);
+    renderer.setPanLimits(new double[] {0,24,0,0});
+    renderer.setXLabels(0);
+    int curHour = this.startHour;
+    for(int n = 0; n < 24; ++n)
+    {
+        if((n % 2) == 1)
+        {
+            if(curHour == 0)
+                renderer.addXTextLabel(n, "12a");
+            else if(curHour < 12)
+                renderer.addXTextLabel(n, Integer.toString(curHour + 1) + "a");
+            else if(curHour == 12)
+                renderer.addXTextLabel(n, "12p");
+            else
+                renderer.addXTextLabel(n, Integer.toString(curHour - 12) + "p");
+        }
+        ++curHour;
+        if(curHour == 24)
+            curHour = 0;
+    }
+    renderer.setZoomEnabled(true);
     renderer.setZoomRate(1.1f);
     renderer.setBarSpacing(0.5f);
-    return ChartFactory.getBarChartIntent(context, buildBarDataset(titles, values), renderer,
+    return ChartFactory.getBarChartView(context, buildBarDataset(titles, values), renderer,
         Type.STACKED);
   }
 

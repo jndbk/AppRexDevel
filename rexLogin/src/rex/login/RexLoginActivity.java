@@ -182,10 +182,6 @@ public class RexLoginActivity extends Activity
             @Override
             public boolean onLongClick(View v) {
                 createUser("","");
-                SalesStackedBarChart sb = new SalesStackedBarChart();
-                Intent in = sb.execute(RexLoginActivity.this);
-                startActivity(in);
-
                 // TODO Auto-generated method stub
                 return true;
             }

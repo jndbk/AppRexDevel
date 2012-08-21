@@ -15,6 +15,8 @@
  */
 package rex.login;
 
+import org.achartengine.GraphicalView;
+
 import android.content.Context;
 import android.content.Intent;
 
@@ -47,6 +49,6 @@ public interface IDemoChart {
    * @param context the context
    * @return the built intent
    */
-  Intent execute(Context context);
+  GraphicalView execute(Context context);
 
 }

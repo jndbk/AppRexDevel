@@ -5,7 +5,9 @@ import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer.OnDrawerClose
 import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer.OnDrawerOpenListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.TimeZone;
 
@@ -115,6 +117,9 @@ public class MyAppList implements OnDrawerCloseListener, OnDrawerOpenListener{
             DeviceAppState[] binnedApps = AppInfoHelper.instance().getAppBins(mPackageName, startTime, 60*1000, 24 * 60);
 
             SalesStackedBarChart sb = new SalesStackedBarChart();
+            Calendar c = new GregorianCalendar();
+            sb.setStartHour(c.get(Calendar.HOUR_OF_DAY));
+            
             LinkedList<SalesStackedBarChart.AppIntervals> appIntervals = new LinkedList<SalesStackedBarChart.AppIntervals>();
             for(int m = 0; m < 3; ++m)
             {
@@ -152,17 +157,9 @@ public class MyAppList implements OnDrawerCloseListener, OnDrawerOpenListener{
                 ++n;
             }
             sb.setValues(appIntervals, 24, 60);
-            Intent in = sb.execute(mAct);
             
-            String sss = "Act" + Integer.toString(nameNum);
-            ++nameNum;
-            LocalActivityManager mgr = mAct.getLocalActivityManager();
-            Window w = mgr.startActivity(sss, in);
-//            Window w = mgr.startActivity("unique_per_activity_string", in);
-            View wd = w != null ? w.getDecorView() : null;
-            Log.d("Parse", wd.toString());
             LinearLayout tv = (LinearLayout) myapps.findViewById(R.id.drawerLayout);
-            tv.addView(wd);
+            tv.addView(sb.execute(mAct));
             
         }
 

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
 import org.achartengine.chart.AbstractChart;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.renderer.SimpleSeriesRenderer;
@@ -61,7 +62,7 @@ public class SalesBarChart extends AbstractDemoChart{
 	 *            the context
 	 * @return the built intent
 	 */
-	public Intent execute(Context context){
+	public GraphicalView execute(Context context){
 		String[] titles = new String[] { "2007", "2008" };
 		List<double[]> values = new ArrayList<double[]>(); 
 		values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030,
@@ -88,7 +89,7 @@ public class SalesBarChart extends AbstractDemoChart{
 					.getSeriesRendererAt(i);
 			seriesRenderer.setDisplayChartValues(true);
 		}
-		return ChartFactory.getBarChartIntent(context,
+		return ChartFactory.getBarChartView(context,
 				buildBarDataset(titles, values), renderer, Type.DEFAULT);
 	}
 }
